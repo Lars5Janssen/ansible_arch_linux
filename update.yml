@@ -1,0 +1,10 @@
+---
+- name: Update Arch Linux Machines
+  hosts: self
+  become: true
+
+  tasks:
+    - name: Full system pacman upgrade
+      pacman:
+        upgrade: true
+        update_cache: true

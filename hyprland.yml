@@ -1,0 +1,39 @@
+---
+- name: Ensure Hyprland Setup
+  hosts: self
+  roles:
+    - role: dotfiles
+
+  tasks:
+    - name: Install Hyprland and Plugins
+      become: true
+      pacman:
+        name:
+          - hyprland
+          - hypridle
+          - hyprlock
+        state: latest
+
+    - name: screenshot
+      become: true
+      pacman:
+        name:
+          - slurp
+          - wl-clipboard
+          - grim
+        state: latest
+
+    - name: xdg-desktop
+      become: true
+      pacman:
+        name:
+          - xdg-desktop-portal
+          - xdg-desktop-portal-hyprland
+        state: latest
+
+    - name: background
+      become: true
+      pacman:
+        name:
+          - swww
+        state: latest

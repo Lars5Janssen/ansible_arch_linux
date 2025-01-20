@@ -1,0 +1,7 @@
+---
+# Configure Pacman
+- name: I Love Color
+- name: Extra
+- name: 32-Bit
+- name: reflector
+- name: download threads

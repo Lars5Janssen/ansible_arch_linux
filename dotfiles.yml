@@ -1,24 +1,22 @@
 ---
-- name: Ensure Dotfiles are Downloaded
+# Ensure Dotfiles
+- name: Install Stow
+  become: true
+  package:
+    name: stow
+    state: latest
+  register: stow
 
-  tasks:
-    - name: Install Stow
-      become: true
-      package:
-        name: stow
-        state: latest
-      register: stow
+- name: Check for and or Download Dotfiles
+  git:
+    repo: git@github.com:Lars5Janssen/dotfiles.git
+    dest: ~/dotfiles/
+    update: no
 
-    - name: Check for and or Download Dotfiles
-      git:
-        repo: git@github.com:Lars5Janssen/dotfiles.git
-        dest: ~/dotfiles/
-        update: no
-
-    - name: Stow Dotfiles
-      command:
-        chdir: ~/dotfiles/
-        cmd: stow . -v
-      register: result
-      changed_when: result.stdout.find('LINK') != -1
-      failed_when: result.rc != 0
+- name: Stow Dotfiles
+  command:
+    chdir: ~/dotfiles/
+    cmd: stow . -v
+  register: result
+  changed_when: result.stdout.find('LINK') != -1
+  failed_when: result.rc != 0

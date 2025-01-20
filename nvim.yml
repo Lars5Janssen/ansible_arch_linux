@@ -1,46 +1,48 @@
 ---
-- name: Ensure NVIM Setup
-  hosts: self
+# Configure Nvim
+- name: Dotfiles 
+  import_tasks: dotfiles.yml
+- name: AUR
+  import_tasks: 
+    file: aur.yml
 
-  tasks:
-    - import_tasks: dotfiles.yml
-    - import_tasks: aur.yml
+- name: Install nvim and direct dependencies
+  become: true
+  pacman: # These package names are arch specific no guarantee for other distros
+    name:
+      - neovim
+      - lua
+      - luarocks
+    state: latest
 
-    - name: Install nvim and direct dependencies
-      become: true
-      pacman: # These package names are arch specific no guarantee for other distros
-        name:
-          - neovim
-          - lua
-          - luarocks
-        state: latest
+- name: Install language servers
+  become: true
+  pacman:
+    state: latest
+    name:
+      - bash-language-server
+      - jedi-language-server
+      - lua-language-server
+      - vscode-json-languageserver
+      - yaml-language-server
+      - tree-sitter
+      # might add tree-siiter
+      #                      -bash
+      #                      -c
+      #                      -lua
+      #                      -markdown
+      #                      -rust
+      #                      -vim
+      #                      -vimdoc
+      #                      -python
 
-    - name: Install language servers
-      become: true
-      pacman:
-        state: latest
-        name:
-          - bash-language-server
-          - jedi-language-server
-          - lua-language-server
-          - vscode-json-languageserver
-          - yaml-language-server
-          - tree-sitter
-          # might add tree-siiter
-          #                      -bash
-          #                      -c
-          #                      -lua
-          #                      -markdown
-          #                      -rust
-          #                      -vim
-          #                      -vimdoc
-          #                      -python
-
-    - include_tasks: aur.yml
-    - name: Install AUR Server
-      when: awnsible_facts['distribution'] == "ArchLinux" and paru_installed.rc == 0
-      command:
-        cmd: paru -S
-        argv:
-          - dockerfile-language-server
-        
+- name: Install AUR Server
+  command:
+    argv:
+      - paru 
+      - --noconfirm
+      - --needed
+      - -S
+      - dockerfile-language-server-bin
+  register: paru_output
+  changed_when: paru_output.stderr.find('up to date -- skipping') == -1

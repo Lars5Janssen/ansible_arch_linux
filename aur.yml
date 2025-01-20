@@ -1,39 +1,36 @@
 ---
-- name: Install AUR Manager Paru
-  hosts: self
+# Configure AUR (PARU)
+- name: Check if Paru is installed
+  command:
+    cmd: which paru
+  register: paru_installed
+  ignore_errors: yes
+  changed_when: false
 
-  tasks:
-    - name: Check if Paru is installed
-      command:
-        cmd: which paru
-      register: paru_installed
-      ignore_errors: yes
-      changed_when: false
+- name: Install Base Devel
+  when: paru_installed.rc != 0
+  become: true
+  pacman:
+    name: base-devel
+    state: latest
 
-    - name: Install Base Devel
-      when: paru_installed.rc != 0
-      become: true
-      pacman:
-        name: base-devel
-        state: latest
+- name: Download Paru
+  when: paru_installed.rc != 0
+  git:
+    repo: 'https://aur.archlinux.org/paru.git'
+    dest: /home/l/
+  register: clone_result
 
-    - name: Download Paru
-      when: paru_installed.rc != 0
-      git:
-        repo: 'https://aur.archlinux.org/paru.git'
-        dest: /home/l/
-      register: clone_result
+- name: Install Paru
+  when: paru_installed.rc != 0 and clone_result is succeeded
+  command:
+    chdir: /home/l/paru/
+    cmd: makepkg
+    argv:
+      - -si
 
-    - name: Install Paru
-      when: paru_installed.rc != 0 and clone_result is succeeded
-      command:
-        chdir: /home/l/paru/
-        cmd: makepkg
-        argv:
-          - -si
-    
-    - name: Ensure Paru CleanUp
-      when: paru_installed.rc != 0
-      file:
-        state: absent
-        path: /home/l/paru/
+- name: Ensure Paru CleanUp
+  when: paru_installed.rc != 0
+  file:
+    state: absent
+    path: /home/l/paru/

@@ -1,39 +1,50 @@
 ---
-- name: Ensure Hyprland Setup
-  hosts: self
-  roles:
-    - role: dotfiles
+# Configure Hyprland
+- name: Ensure Dotfiles
+  import_tasks: dotfiles.yml
+- name: Ensure AUR
+  import_tasks: aur.yml
 
-  tasks:
-    - name: Install Hyprland and Plugins
-      become: true
-      pacman:
-        name:
-          - hyprland
-          - hypridle
-          - hyprlock
-        state: latest
+- name: Install Hyprland and Plugins
+  become: true
+  pacman:
+    name:
+      - hyprland
+      - hypridle
+      - hyprlock
+    state: latest
 
-    - name: screenshot
-      become: true
-      pacman:
-        name:
-          - slurp
-          - wl-clipboard
-          - grim
-        state: latest
+- name: screenshot
+  become: true
+  pacman:
+    name:
+      - slurp
+      - wl-clipboard
+      - grim
+    state: latest
 
-    - name: xdg-desktop
-      become: true
-      pacman:
-        name:
-          - xdg-desktop-portal
-          - xdg-desktop-portal-hyprland
-        state: latest
+- name: xdg-desktop
+  become: true
+  pacman:
+    name:
+      - xdg-desktop-portal
+      - xdg-desktop-portal-hyprland
+    state: latest
 
-    - name: background
-      become: true
-      pacman:
-        name:
-          - swww
-        state: latest
+- name: background
+  become: true
+  pacman:
+    name:
+      - swww
+    state: latest
+
+- name: tofi (Programm runner)
+  command:
+    argv:
+      - paru 
+      - --noconfirm
+      - --needed
+      - -S
+      - tofi
+  register: paru_output
+  changed_when: paru_output.stderr.find('up to date -- skipping') == -1

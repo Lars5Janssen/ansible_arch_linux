@@ -1,0 +1,10 @@
+---
+- name: Setup Laptop
+  hosts: self
+
+  tasks:
+    - name: Nvim
+      import_tasks: nvim.yml
+
+    - name: Hyprland
+      import_tasks: hyprland.yml

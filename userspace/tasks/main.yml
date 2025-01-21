@@ -1,10 +1,13 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for userspace
 - name: Install Pacman Apps
   become: true
   pacman:
     name:
-      - alacritty
       - tldr
       - sl
+      - kitty
       - vlc # Flatpak ?
       - lolcat
       - nextcloud-client
@@ -28,10 +31,12 @@
       - fzf
       - openvpn
 
-# - name: Unwanted Pacman Apps
-#   pacman:
-#     state: absent
-#     name:
+- name: Unwanted Pacman Apps
+  become: true
+  pacman:
+    state: absent
+    name:
+      - alacritty
 
 - name: Install AUR Apps
   command:

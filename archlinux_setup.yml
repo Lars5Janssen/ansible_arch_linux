@@ -1,2 +1,6 @@
 ---
-- name: Arch Setup
+- name: Base Packages
+  pacman:
+    name:
+      -
+  

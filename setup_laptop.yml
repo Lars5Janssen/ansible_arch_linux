@@ -7,5 +7,5 @@
     - bluetooth
 
   tasks:
-    # - name: Update
-    #   import_tasks: update.yml
+    - name: Check for Updates
+      import_tasks: check_for_updates.yml

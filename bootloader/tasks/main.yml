@@ -1,0 +1,77 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for bootloader
+- name: Install Grub
+  become: true
+  pacman:
+    name:
+      - grub
+      - efibootmgr
+      - os-prober
+
+- name: Check for Catppuccin Grub Theme
+  register: found_catppuccin
+  become: true
+  file:
+    path: '/boot/grub/themes/catppuccin-mocha-grub-theme/{{ item.file }}'
+  loop:
+    - { file: background.png }
+    - { file: font.pf2 }
+    - { file: icons }
+    - { file: logo.png }
+    - { file: select_c.png }
+    - { file: select_e.png }
+    - { file: select_w.png }
+    - { file: theme.txt }
+
+- name: Download Catppuccin Grub Theme
+  when: found_catppuccin is failed
+  become: true
+  git:
+    repo: https://github.com/catppuccin/grub.git
+    dest: /tmp/grub-catppuccin
+    clone: yes
+    depth: 1
+  register: catppuccin_clone
+
+- name: Install Catppuccin Grub Theme
+  when: catppuccin_clone is succeeded and found_catppuccin is failed
+  become: true
+  copy:
+    src: /tmp/grub-catppuccin/catppuccin-mocha-grub-theme/src/catppuccin-mocha-grub-theme
+    dest: /boot/grub/themes/catppuccin-mocha-grub-theme
+  register: catppuccin_fresh_install
+
+- name: Catppuccin CleanUP
+  when: catppuccin_clone is succeeded
+  become: true
+  file:
+    state: absent
+    path: /tmp/grub-catppuccin
+
+- name: Grub Theme
+  when: found_catppuccin is succeeded or catppuccin_fresh_install is succeeded
+  become: true
+  lineinfile: 
+    path: /etc/default/grub
+    state: present
+    line: GRUB_THEME="/boot/grub/themes/catppuccin-mocha-grub-theme/theme.txt"
+  register: installed_theme
+
+- name: OS-Prober
+  become: true
+  lineinfile:
+    state: absent
+    path: /etc/default/grub
+    line: GRUB_DISABLE_OS_PROBER=false
+    insertafter: ^#GRUB_DISABLE_OS_PROBER=false$
+  register: os_prober
+
+- name: Update Grub Config
+  # when: false
+  when: os_prober is changed or installed_theme is changed
+  command:
+    argv:
+      - grub-mkconfig
+      - -o
+      - /boot/grub/grub.cfg

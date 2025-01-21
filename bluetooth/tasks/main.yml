@@ -2,3 +2,17 @@
 ---
 # tasks file for bluetooth
 # TODO
+- name: Install bluetooth utilities
+  become: true
+  pacman:
+    name:
+      - bluez
+      - bluez-utils
+      - bluetui
+      - blueman
+
+- name: Enable bluetooth service
+  systemd:
+    name: bluetooth
+    state: started
+    enabled: yes

@@ -4,6 +4,7 @@
   roles:
     - drivers
     - gaming
+    - bluetooth
     - aur
     - pacman
     - dotfiles

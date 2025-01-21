@@ -43,7 +43,7 @@
   register: catppuccin_fresh_install
 
 - name: Catppuccin CleanUP
-  when: catppuccin_clone is succeeded
+  when: catppuccin_clone is not skipped 
   become: true
   file:
     state: absent

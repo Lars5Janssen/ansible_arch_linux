@@ -42,7 +42,7 @@
     path: /etc/pacman.conf
     state: present
     block: |
-      \[multilib\]
+      [multilib]
       Include = /etc/pacman.d/mirrorlist
   check_mode: true
   register: multilib_support

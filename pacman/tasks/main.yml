@@ -1,17 +1,14 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for pacman
-- name: Color
+- name: Misc Pacman Config Options
   lineinfile:
     path: /etc/pacman.conf
-    state: present
-    line: Color
-
-- name: I Love Candy (Pacman easter egg)
-  lineinfile:
-    path: /etc/pacman.conf
-    state: present
-    line: ILoveCandy 
+    state: "{{ item.state }}"
+    line: "{{ item.option }}"
+  loop:
+    - { option: Color, state: present}
+    - { option: ILoveCandy, state: present}
 
 - name: 32-Bit (Multilib)
   become: true
@@ -19,7 +16,7 @@
     path: /etc/pacman.conf
     state: present
     block: |
-      \[multilib\]
+      [multilib]
       Include = /etc/pacman.d/mirrorlist
 
 - name: download threads
@@ -37,18 +34,7 @@
 
 # Make Use of Reflector A Cron Job
 - name: Use Reflector
-  debug:
-    msg: Make Use of Reflector a Cron Job
-#   when: reflector is succeeded
-#   become: true
-#   command:
-#     argv:
-#       - reflector
-#       - --country 
-#       - Germany
-#       - --sort
-#       - rate
-#       - --protocol
-#       - https
-#       - --save
-#       - /etc/pacman.d/mirrorlist
+  cron:
+    name: "Pacman Reflector"
+    day: "*/7"
+    job: reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist

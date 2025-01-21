@@ -23,10 +23,11 @@
 
 - name: Install Paru
   when: paru_installed.rc != 0 and clone_result is succeeded
+  become: true
   command:
     chdir: /home/l/paru/
-    cmd: makepkg
     argv:
+      - makepkg
       - -si
 
 - name: Ensure Paru CleanUp

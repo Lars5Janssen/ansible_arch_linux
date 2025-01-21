@@ -33,7 +33,7 @@
   become: true
   pacman:
     name: 
-      - polkit # TODO What is this
+      # - polkit # TODO What is this
       - mako
 
 - name: xdg-desktop

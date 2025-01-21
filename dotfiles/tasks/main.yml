@@ -22,4 +22,34 @@
   changed_when: result.stdout.find('LINK') != -1
   failed_when: result.rc != 0
 
-  # Cron Job that reminds of Unsaved Changes
+# TODO Cron Job that reminds of Unsaved Changes
+- name: Ensure Notify Send
+  pacman:
+    name: libnotify
+    
+- name: Create Cron Script
+  register: script
+  blockinfile:
+    path: ~/.local/cron/dotfiles_cron_job.sh
+    create: true
+    mode: '0755'
+    block: |
+      #!/bin/bash
+      cd ~/dotfiles/
+      UNCOMMITED_CHANGES="$(git diff-index HEAD --)"
+      UNPUSHED_COMMITS="$(git push --dry-run)"
+
+      if [[ "$UNCOMMITED_CHANGES" != "" ]]; then
+          notify-send "You have uncommited changes in your dotfiles"
+      fi
+
+      if [[ "$UNPUSHED_COMMITS" != "Everything up-to-date" ]]; then
+          notify-send "You have unpushed commits in your dotfiles"
+      fi
+
+- name: Cron Reminder
+  cron:
+    name: dotfiles reminder
+    hour: "*"
+    user: l
+    job: ~/.local/cron/dotfiles_cron_job.sh

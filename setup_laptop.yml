@@ -2,6 +2,8 @@
 - name: Setup Laptop
   hosts: self
   roles:
+    - drivers
+    - gaming
     - aur
     - pacman
     - dotfiles

@@ -2,3 +2,12 @@
 ---
 # tasks file for user
 # TODO MAKE SHURE USER IS PRESENT
+- name: Ensure User
+  check_mode: true
+  user:
+    name: l # TODO REFACTOR USERNAME
+    groups: wheel
+    shell: /bin/zsh
+    # TODO SSH KEY???
+    append: true 
+

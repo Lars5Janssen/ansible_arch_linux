@@ -2,6 +2,7 @@
 - name: Setup Laptop
   hosts: self
   roles:
+    - user
     - drivers
     - gaming
     - bluetooth

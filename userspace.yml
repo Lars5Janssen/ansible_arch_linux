@@ -3,9 +3,9 @@
   pacman:
     name:
       - alacritty
-      - vlc
       - tldr
       - sl
+      - vlc # Flatpak ?
       - lolcat
       - nextcloud-client
       - man-db 
@@ -28,10 +28,18 @@
       - fzf
       - openvpn
 
+# - name: Unwanted Pacman Apps
+#   pacman:
+#     state: absent
+#     name:
+
 - name: Install AUR Apps
   command:
     argv:
-      - paru -S --noconfirm --needed
+      - paru 
+      - --noconfirm 
+      - --needed
+      - -S
       - oh-my-posh-bin 
       - mullvad-vpn-bin
   register: paru_output

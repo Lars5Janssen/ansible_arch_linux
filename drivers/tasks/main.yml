@@ -1,0 +1,12 @@
+#SPDX-License-Identifier: MIT-0
+---
+# TODO
+# tasks file for drivers
+- name: Intel
+  include_tasks: intel.yml
+
+- name: AMD
+  include_tasks: amd.yml
+
+- name: Nvidia
+  include_tasks: nvidia.yml

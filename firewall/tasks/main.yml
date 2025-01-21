@@ -6,6 +6,12 @@
   pacman:
     name: ufw
 
+- name: Install ufw frontends
+  become: true
+  pacman:
+      name: gufw
+  # TODO needs polkit configurated...
+
 - name: Disable iptables service
   become: true
   systemd:
@@ -22,13 +28,31 @@
     state: started
     enabled: yes
 
-# TODO use community ufw module
-- name: Firewall rules
-  register: rule
-  changed_when: rule.stdout.find("Skipping adding existing rule") != -1
+- name: Default incoming rule
   become: true
-  shell: ufw "{{ item }}"
-  loop:
-    - default deny
-    - allow from 192.168.0.0/24
-    - limit ssh
+  community.general.ufw:
+    default: deny
+    direction: incoming
+
+- name: Default outgoing rule
+  become: true
+  community.general.ufw:
+    default: deny
+    direction: incoming
+
+- name: Allow from local
+  become: true
+  community.general.ufw:
+    from: "192.168.0.0/24"
+    rule: allow
+
+- name: Allow ssh
+  become: true
+  community.general.ufw:
+    rule: allow
+    port: ssh
+
+- name: Enable ufw
+  become: true
+  community.general.ufw:
+    state: enabled

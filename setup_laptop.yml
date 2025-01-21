@@ -4,7 +4,6 @@
   roles:
     - common-setup
     - usb-c-thunderbolt
-    - gaming
     - bluetooth
 
   tasks:

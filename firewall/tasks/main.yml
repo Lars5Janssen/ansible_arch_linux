@@ -50,7 +50,7 @@
   become: true
   community.general.ufw:
     rule: allow
-    port: ssh
+    port: ssh # TODO Change SSH port
 
 - name: Enable ufw
   become: true

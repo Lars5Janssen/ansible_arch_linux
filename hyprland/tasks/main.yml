@@ -1,9 +1,11 @@
+#SPDX-License-Identifier: MIT-0
 ---
+# tasks file for hyprland
 # Configure Hyprland
-- name: Ensure Dotfiles
-  import_tasks: dotfiles.yml
-- name: Ensure AUR
-  import_tasks: aur.yml
+# - name: Ensure Dotfiles
+#   import_tasks: dotfiles.yml
+# - name: Ensure AUR
+#   import_tasks: aur.yml
 
 - name: Install Hyprland and Plugins
   become: true
@@ -31,7 +33,7 @@
   become: true
   pacman:
     name: 
-      - polkit
+      - polkit # TODO What is this
       - mako
 
 - name: xdg-desktop

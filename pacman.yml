@@ -1,7 +1,55 @@
 ---
 # Configure Pacman
-- name: I Love Color
-- name: Extra
-- name: 32-Bit
-- name: reflector
+- name: Color
+  lineinfile:
+    path: /etc/pacman.conf
+    state: present
+    line: Color
+
+- name: I Love Candy (Pacman easter egg)
+  lineinfile:
+    path: /etc/pacman.conf
+    state: present
+    line: ILoveCandy 
+
+- name: 32-Bit (Multilib)
+  lineinfile:
+    path: /etc/pacman.conf
+    state: present
+    line: "[multilib]"
+  register: multilib_section_present 
+
+- name: 32-Bit (Multilib) Part 2
+  when: multilib_section_present is succeeded
+  lineinfile:
+    path: /etc/pacman.conf
+    state: present
+    line: Include = /etc/pacman.d/mirrorlist
+    insertafter: ^\[multilib\]$
+
 - name: download threads
+  lineinfile:
+    path: /etc/pacman.conf
+    state: present
+    line: ParallelDownloads = 8
+
+- name: Install Relector
+  become: true
+  pacman:
+    name: reflector
+    state: present
+  register: reflector
+- name: Use Reflector
+  when: reflector is succeeded
+  become: true
+  command:
+    argv:
+      - reflector
+      - --country 
+      - Germany
+      - --sort
+      - rate
+      - --protocol
+      - https
+      - --save
+      - /etc/pacman.d/mirrorlist

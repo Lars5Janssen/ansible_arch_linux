@@ -1,0 +1,7 @@
+- name: Install Flatpak
+  pacman:
+    name: flatpak
+
+- name: Flatseal
+  flatpak:
+    name: com.github.tchx84.Flatseal

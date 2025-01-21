@@ -13,12 +13,10 @@
       - neovim
       - lua
       - luarocks
-    state: latest
 
 - name: Install language servers
   become: true
   pacman:
-    state: latest
     name:
       - bash-language-server
       - jedi-language-server

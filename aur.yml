@@ -12,7 +12,6 @@
   become: true
   pacman:
     name: base-devel
-    state: latest
 
 - name: Download Paru
   when: paru_installed.rc != 0

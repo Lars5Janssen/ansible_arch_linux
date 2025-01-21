@@ -21,7 +21,18 @@
       - slurp
       - wl-clipboard
       - grim
-    state: latest
+
+- name: waybar
+  become: true
+  pacman: 
+    name: waybar
+
+- name: notification
+  become: true
+  pacman:
+    name: 
+      - polkit
+      - mako
 
 - name: xdg-desktop
   become: true
@@ -36,7 +47,6 @@
   pacman:
     name:
       - swww
-    state: latest
 
 - name: tofi (Programm runner)
   command:

@@ -1,0 +1,95 @@
+- name: Install Pacman Apps
+  become: true
+  pacman:
+    name:
+      - alacritty
+      - vlc
+      - tldr
+      - sl
+      - lolcat
+      - nextcloud-client
+      - man-db 
+      - man-pages
+      - keepassxc
+      - firefox
+      - kdeconnect
+      - cheese
+      # These Programms might be better in a diffrent playbook 
+      # or refactored out of general userspace
+      - btop
+      - docker
+      - docker-compose
+      - playerctl
+      - pavucontrol
+      - rustup
+      - go
+      - zoxide
+      - zsh
+      - fzf
+      - openvpn
+
+- name: Install AUR Apps
+  command:
+    argv:
+      - paru -S --noconfirm --needed
+      - oh-my-posh-bin 
+      - mullvad-vpn-bin
+  register: paru_output
+  changed_when: paru_output.stderr.find('up to date -- skipping') == -1
+
+- name: Install Flatpak Apps
+  flatpak:
+    method: user
+    name:
+      - com.discordapp.Discord
+      - com.jetbrains.GoLand
+      - com.jetbrains.IntelliJ-IDEA-Ultimate
+      - md.obsidian.Obsidian
+      - org.audacityteam.Audacity
+      - org.libreoffice.LibreOffice
+      - org.mozilla.Thunderbird
+      - chat.revolt.RevoltDesktop
+
+- name: Install Flatpak Beta Apps
+  flatpak:
+    remote: flathub-beta
+    method: system
+    name: com.discordapp.DiscordCanary
+
+- name: Install KeyD
+  pacman:
+    name: keyd
+
+# Find a way to check for this config
+
+# [ids]
+#
+# *
+#
+# [main]
+# # 1 = !
+# # 2 = @
+# # 3 = #
+# # 4 = $
+# # 5 = %
+# # 6 = ^
+# # 7 = &
+# # 8 = *
+# # 9 = (
+# # 0 = )
+#
+# # Maps capslock to escape when pressed and control when held.
+# capslock = overload(control, esc)
+#
+# # Remaps the escape key to capslock
+# esc = capslock
+# # esc = layer(shift)
+#
+# meta = layer(alt)
+# alt = layer(meta)
+
+- name: Enable KeyD
+  systemd:
+    state: started
+    enabled: yes
+    name: keyd

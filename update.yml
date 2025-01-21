@@ -5,6 +5,23 @@
 
   tasks:
     - name: Full system pacman upgrade
+      become: true
       pacman:
         upgrade: true
         update_cache: true
+
+    - name: Paru upgrade
+      command:
+        argv:
+          - paru
+          - -Syyyu
+          - --noconfirm
+      register: paru_output
+      changed_when: paru_output.stderr.find('up to date -- skipping') == -1
+
+    - name: flatpak update
+      command:
+        argv:
+          - flatpak
+          - update
+

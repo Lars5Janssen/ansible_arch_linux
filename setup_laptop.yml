@@ -8,3 +8,16 @@
 
     - name: Hyprland
       import_tasks: hyprland.yml
+
+    # - name: Pacman
+    #   import_tasks: pacman.yml
+
+    - name: Flatpak 
+      import_tasks: flatpak.yml
+
+    - name: Userspace
+      import_tasks: userspace.yml
+
+    # - name: Update
+    #   import_tasks: update.yml
+

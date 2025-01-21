@@ -39,17 +39,21 @@
     name: reflector
     state: present
   register: reflector
+
+# Make Use of Reflector A Cron Job
 - name: Use Reflector
-  when: reflector is succeeded
-  become: true
-  command:
-    argv:
-      - reflector
-      - --country 
-      - Germany
-      - --sort
-      - rate
-      - --protocol
-      - https
-      - --save
-      - /etc/pacman.d/mirrorlist
+  debug:
+    msg: Make Use of Reflector a Cron Job
+#   when: reflector is succeeded
+#   become: true
+#   command:
+#     argv:
+#       - reflector
+#       - --country 
+#       - Germany
+#       - --sort
+#       - rate
+#       - --protocol
+#       - https
+#       - --save
+#       - /etc/pacman.d/mirrorlist

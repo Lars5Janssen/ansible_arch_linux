@@ -20,3 +20,5 @@
   register: result
   changed_when: result.stdout.find('LINK') != -1
   failed_when: result.rc != 0
+
+  # Cron Job that reminds of Unsaved Changes

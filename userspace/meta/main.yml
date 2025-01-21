@@ -31,6 +31,7 @@ galaxy_info:
     #       Maximum 20 tags per role.
 
 dependencies: 
+  - role: pacman
   - role: dotfiles
   - role: nvim
   - role: hyprland

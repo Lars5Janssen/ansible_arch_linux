@@ -8,3 +8,5 @@
 - name: Flatseal
   flatpak:
     name: com.github.tchx84.Flatseal
+
+# TODO XDG Desktop Portal Config

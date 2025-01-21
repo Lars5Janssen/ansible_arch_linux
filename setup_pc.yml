@@ -1,5 +1,5 @@
 ---
-- name: Setup Laptop
+- name: Setup PC
   hosts: self
   roles:
     - common-setup

@@ -42,6 +42,7 @@
     name:
       - xdg-desktop-portal
       - xdg-desktop-portal-hyprland
+      - xdg-desktop-portal-gtk
     state: latest
 
 - name: background

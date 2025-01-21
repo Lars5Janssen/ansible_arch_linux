@@ -14,19 +14,13 @@
     line: ILoveCandy 
 
 - name: 32-Bit (Multilib)
-  lineinfile:
+  become: true
+  blockinfile:
     path: /etc/pacman.conf
     state: present
-    line: "[multilib]"
-  register: multilib_section_present 
-
-- name: 32-Bit (Multilib) Part 2
-  when: multilib_section_present is succeeded
-  lineinfile:
-    path: /etc/pacman.conf
-    state: present
-    line: Include = /etc/pacman.d/mirrorlist
-    insertafter: ^\[multilib\]$
+    block: |
+      \[multilib\]
+      Include = /etc/pacman.d/mirrorlist
 
 - name: download threads
   lineinfile:

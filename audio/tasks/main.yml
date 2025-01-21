@@ -1,3 +1,63 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for audio
+- name: Install PipeWire
+  become: true
+  pacman:
+    name: 
+      - pipewire
+      - pipewire-alsa
+      - pipewire-pulse
+      - wireplumber
+      - qpwgraph
+      - pavucontrol
+
+- name: Start/Enable PipeWire-pulse Service
+  systemd:
+    scope: user
+    state: started
+    enabled: yes
+    name: pipewire-pulse
+- name: Start/Enable PipeWire-pulse Socket
+  systemd:
+    scope: user
+    state: started
+    enabled: yes
+    name: pipewire-pulse.socket
+- name: Start/Enable PipeWire Service
+  systemd:
+    scope: user
+    state: started
+    enabled: yes
+    name: pipewire
+- name: Start/Enable PipeWire Socket
+  systemd:
+    scope: user
+    state: started
+    enabled: yes
+    name: pipewire.socket
+
+- name: Check for 32 Bit Support
+  blockinfile:
+    path: /etc/pacman.conf
+    state: present
+    block: |
+      \[multilib\]
+      Include = /etc/pacman.d/mirrorlist
+  check_mode: true
+  register: multilib_support
+
+- name: Install PipeWire 32-Bit Support
+  when: multilib_support is succeeded
+  become: true
+  pacman:
+    name: lib32-pipewire
+
+- name: Ensure no PulseAudio
+  become: true
+  pacman:
+    state: absent
+    name: 
+      - pulseaudio
+      - pulseaudio-bluetooth
+      - pipewire-media-session

@@ -1,0 +1,11 @@
+---
+- name: Setup Laptop
+  hosts: self
+  roles:
+    - common-setup
+    - gaming
+    - bluetooth
+
+  tasks:
+    - name: Check for Updates
+      import_tasks: check_for_updates.yml

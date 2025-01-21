@@ -1,0 +1,35 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for gaming
+- name: Check for 32 Bit Support
+  blockinfile:
+    path: /etc/pacman.conf
+    state: present
+    block: |
+      [multilib]
+      Include = /etc/pacman.d/mirrorlist
+  check_mode: true
+  register: multilib_support
+
+
+- name: Install Steam
+  when: multilib_support is succeeded
+  become: true
+  pacman: 
+    name: steam
+
+- name: Install Lutris
+  flatpak:
+    method: user
+    name: net.lutris.Lutris
+    
+- name: Misc Gaming Programms (Pacman)
+  become: true
+  pacman:
+    name:
+      - gamescope
+    
+- name: Misc Gaming Programms (Flatpak)
+  flatpak:
+    name:
+      - net.davidotek.pupgui2

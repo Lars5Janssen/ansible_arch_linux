@@ -1,10 +1,11 @@
+#SPDX-License-Identifier: MIT-0
 ---
-# Configure AUR (PARU)
+# tasks file for aur
 - name: Check if Paru is installed
   command:
     cmd: which paru
   register: paru_installed
-  ignore_errors: yes
+  ignore_errors: true
   changed_when: false
 
 - name: Install Base Devel

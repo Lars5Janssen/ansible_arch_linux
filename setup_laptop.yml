@@ -1,23 +1,17 @@
 ---
 - name: Setup Laptop
   hosts: self
+  roles:
+    - aur
+    - pacman
+    - dotfiles
+    - nvim
+    - hyprland
+    - flatpak
+    - login-manager
+    - userspace
+    - bootloader
 
   tasks:
-    # - name: Nvim
-    #   import_tasks: nvim.yml
-    #
-    # - name: Hyprland
-    #   import_tasks: hyprland.yml
-    #
-    # - name: Pacman
-    #   import_tasks: pacman.yml
-    #
-    # - name: Flatpak 
-    #   import_tasks: flatpak.yml
-
-    - name: Userspace
-      import_tasks: userspace.yml
-
     # - name: Update
     #   import_tasks: update.yml
-

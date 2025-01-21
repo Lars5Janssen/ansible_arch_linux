@@ -2,20 +2,9 @@
 - name: Setup Laptop
   hosts: self
   roles:
-    - user
-    - drivers
+    - common-setup
     - gaming
     - bluetooth
-    - aur
-    - pacman
-    - dotfiles
-    - nvim
-    - hyprland
-    - flatpak
-    - login-manager
-    - userspace
-    - bootloader
-    - network
 
   tasks:
     # - name: Update

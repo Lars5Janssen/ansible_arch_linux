@@ -17,3 +17,5 @@
       - udevadm
       - control 
       - --reload
+
+# TODO thunderbolt.host_reset=false (KERNEL PARAMETER)

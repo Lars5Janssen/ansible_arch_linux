@@ -11,6 +11,7 @@
     - login-manager
     - userspace
     - bootloader
+    - network
 
   tasks:
     # - name: Update

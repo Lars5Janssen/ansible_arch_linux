@@ -1,4 +1,39 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for network
-# TODO NETOWRK CONFIG
+- name: Install Network Managers
+  become: true
+  pacman:
+    name:
+      - networkmanager
+      - networkmanager-openvpn
+      - dhcpcd
+      # - polkit
+- name: Unwanted NetworkManagers
+  become: true
+  pacman:
+    state: absent
+    name:
+      - iwd
+      - netctl
+      - systemd-networkd
+      - connman
+      - dhcpclient
+
+- name: dhcpcd
+  become: true
+  blockinfile:
+    create: true
+    path: /etc/NetworkManager/conf.d/dhcpcd.conf
+    block: |
+      [main]
+      dhcp=dhcpcd
+
+- name: Enable NetworkManager
+  become: true
+  systemd:
+    name: NetworkManager
+    state: started
+
+# TODO
+# - name: Eduroam

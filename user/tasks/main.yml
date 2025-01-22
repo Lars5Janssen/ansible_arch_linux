@@ -11,3 +11,9 @@
     # TODO SSH KEY???
     append: true 
 
+- name: Projects dir
+  file:
+    state: directory
+    path: /home/l/Projects
+    owner: l
+

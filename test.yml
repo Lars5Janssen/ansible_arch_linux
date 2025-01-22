@@ -3,6 +3,7 @@
   roles:
     - dotfiles
     - flatpak
+    - self-preservation
 
   tasks:
     - name: Check for Updates

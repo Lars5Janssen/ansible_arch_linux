@@ -31,5 +31,5 @@
 - name: Use Reflector
   cron:
     name: "Pacman Reflector"
-    day: "*/7"
+    special_time: weekly
     job: reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist

@@ -1,3 +1,16 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for self-preservation
+- name: Check for and or Download Ansible Repo
+  git:
+    repo: git@github.com:Lars5Janssen/awnsible_arch_linux.git
+    dest: ~/Projects/ansible/
+    update: no
+
+- name: self-preservation cron job
+  cron:
+    name: ansible_arch_linux reminder
+    # minute: "*/10"
+    minute: "0-59"
+    user: l
+    job: "~/.local/cron/git_repo_check_cron.sh ~/Projects/ansible/ 600000"

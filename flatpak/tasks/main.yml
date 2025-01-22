@@ -9,4 +9,18 @@
   flatpak:
     name: com.github.tchx84.Flatseal
 
+- name: Copy Cron Script
+  register: script
+  copy:
+    src: "{{ role_path }}/files/update_flatpak.sh"
+    dest: ~/.local/cron/update_flatpak.sh
+    mode: '0755'
+
+- name: Flatpak Cron Job
+  cron:
+    name: Update Flatpaks
+    special_time: weekly
+    user: l
+    job: ~/.local/cron/update_flatpak.sh
+
 # TODO XDG Desktop Portal Config

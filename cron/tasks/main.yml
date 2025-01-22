@@ -6,6 +6,17 @@
   pacman:
     name: cronie
 
+- name: Install Notify send (For scripts)
+  become: true
+  pacman:
+    name: libnotify
+
+- name: Place Git Repo check script
+  copy:
+    src: "{{ role_path }}/files/git_repo_check_cron.sh"
+    dest: ~/.local/cron/git_repo_check_cron.sh
+    mode: '0755'
+
 - name: Enable Cronie 
   become: true
   systemd:

@@ -7,9 +7,9 @@
   register: paru_installed
   ignore_errors: true
   changed_when: false
+  failed_when: false
 
 - name: Install Base Devel
-  when: paru_installed.rc != 0
   become: true
   pacman:
     name: base-devel
@@ -19,17 +19,35 @@
   become_user: "{{ username }}"
   git:
     repo: 'https://aur.archlinux.org/paru.git'
-    dest: "/home/{{ username }}"
+    dest: "/home/{{ username }}/paru/"
   register: clone_result
+
+- name: Remove Sudo PW Check
+  when: paru_installed.rc != 0 and clone_result is succeeded
+  become: true
+  community.general.sudoers:
+    name: allow makepkg
+    user: "{{ username }}"
+    commands: /usr/bin/pacman
+    state: present
 
 - name: Install Paru
   when: paru_installed.rc != 0 and clone_result is succeeded
-  become: true
+  become_user: "{{ username }}"
   command:
     chdir: "/home/{{ username }}/paru/"
     argv:
       - makepkg
       - -si
+      - --noconfirm
+
+- name: Reenable Sudo PW Check
+  become: true
+  community.general.sudoers:
+    name: allow makepkg
+    user: "{{ username }}"
+    commands: /usr/bin/pacman
+    state: absent
 
 - name: Ensure Paru CleanUp
   when: paru_installed.rc != 0

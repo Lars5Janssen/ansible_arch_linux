@@ -11,6 +11,7 @@
   pacman:
     name: libnotify
 
+# TODO LOG CLEANUP SCRIPT
 - name: Place Git Repo check script
   copy:
     src: "{{ role_path }}/files/git_repo_check_cron.sh"

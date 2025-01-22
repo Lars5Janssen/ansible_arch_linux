@@ -27,7 +27,6 @@
     state: present
   register: reflector
 
-# Make Use of Reflector A Cron Job
 - name: Use Reflector
   cron:
     name: "Pacman Reflector"

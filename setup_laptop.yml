@@ -1,4 +1,5 @@
 ---
+# TODO both pcs in one file
 - name: Setup Laptop
   hosts: self
   roles:
@@ -7,5 +8,6 @@
     - bluetooth
 
   tasks:
-    - name: Check for Updates
-      import_tasks: check_for_updates.yml
+    # For hotfixes
+    # - name: Check for Updates
+    #   import_tasks: check_for_updates.yml

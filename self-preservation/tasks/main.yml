@@ -10,7 +10,6 @@
 - name: self-preservation cron job
   cron:
     name: ansible_arch_linux reminder
-    # minute: "*/10"
-    minute: "0-59"
+    minute: "*/10"
     user: l
     job: "~/.local/cron/git_repo_check_cron.sh ~/Projects/ansible/ 600000"

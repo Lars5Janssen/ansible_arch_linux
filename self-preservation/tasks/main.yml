@@ -5,12 +5,12 @@
   become_user: "{{ username }}"
   git:
     repo: git@github.com:Lars5Janssen/awnsible_arch_linux.git
-    dest: ~/Projects/ansible/
+    dest: "/home/{{ username }}/Projects/ansible/"
     update: no
 
 - name: self-preservation cron job
   cron:
     name: ansible_arch_linux reminder
     minute: "*/10"
-    user: l
-    job: "~/.local/cron/git_repo_check_cron.sh ~/Projects/ansible/ 600000"
+    user: "{{ username }}"
+    job: "/home/{{ username }}/.local/cron/git_repo_check_cron.sh home/{{ username }}/Projects/ansible/ 600000"

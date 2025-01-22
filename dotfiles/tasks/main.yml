@@ -26,5 +26,5 @@
   cron:
     name: dotfiles reminder
     minute: "*/10"
-    user: l
+    user: "{{ username }}"
     job: "/home/{{ username }}/.local/cron/git_repo_check_cron.sh /home/{{ username }}/dotfiles/ 600000"

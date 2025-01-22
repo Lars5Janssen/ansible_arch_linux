@@ -5,7 +5,7 @@
 - name: Ensure User
   check_mode: true
   user:
-    name: l # TODO REFACTOR USERNAME
+    name: "{{ username }}"
     groups: wheel
     shell: /bin/zsh
     # TODO SSH KEY???
@@ -14,7 +14,7 @@
 - name: Projects dir
   file:
     state: directory
-    path: /home/l/Projects
-    owner: l
+    path: "/home/{{ username }}/Projects"
+    owner: "{{ username }}"
 
 # TODO GIT

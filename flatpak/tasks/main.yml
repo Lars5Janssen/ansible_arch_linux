@@ -21,7 +21,7 @@
   cron:
     name: Update Flatpaks
     special_time: weekly
-    user: l
+    user: "{{ username }}"
     job: "/home/{{ username }}/.local/cron/update_flatpak.sh"
 
 # TODO XDG Desktop Portal Config

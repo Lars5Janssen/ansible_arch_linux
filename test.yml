@@ -1,0 +1,9 @@
+- name: Testing
+  hosts: self
+  roles:
+    - dotfiles
+    - flatpak
+
+  tasks:
+    - name: Check for Updates
+      import_tasks: check_for_updates.yml

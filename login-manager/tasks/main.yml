@@ -12,8 +12,8 @@
 # Find a way to check for this config
 
 - name: Check greetD Config
-  become: true
   register: greetd_config
+  become: true
   blockinfile:
     path: /etc/greetd/config.toml
     block: |
@@ -25,7 +25,7 @@
       # The default session, also known as the greeter.
       [initial_session]
       command = "hyprland"
-      user = "l"
+      user = "{{ username }}"
 
       [default_session]
 
@@ -39,7 +39,7 @@
       user = "greeter"
 
 - name: Enable greetD
-  when: greetd_config is succeeded
+  when: greetd_config is succeeded # TODO or ()
   become: true
   systemd:
     name: greetd

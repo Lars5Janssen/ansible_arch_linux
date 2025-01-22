@@ -51,6 +51,7 @@
   changed_when: paru_output.stderr.find('up to date -- skipping') == -1
 
 - name: Install Flatpak Apps
+  become_user: "{{ username }}"
   flatpak:
     method: user
     name:

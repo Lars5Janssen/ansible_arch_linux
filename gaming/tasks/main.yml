@@ -2,6 +2,7 @@
 ---
 # tasks file for gaming
 - name: Check for 32 Bit Support
+  become: true
   blockinfile:
     path: /etc/pacman.conf
     state: present
@@ -19,6 +20,7 @@
     name: steam
 
 - name: Install Lutris
+  become_user: "{{ username }}"
   flatpak:
     method: user
     name: net.lutris.Lutris

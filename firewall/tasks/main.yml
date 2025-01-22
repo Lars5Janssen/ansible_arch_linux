@@ -6,53 +6,53 @@
   pacman:
     name: ufw
 
-- name: Install ufw frontends
-  become: true
-  pacman:
-      name: gufw
-  # TODO needs polkit configurated...
-
-- name: Disable iptables service
-  become: true
-  systemd:
-    name: iptables
-    enabled: no
-    state: stopped
-  register: iptables
-
-- name: Enable ufw service
-  become: true
-  when: iptables is succeeded
-  systemd:
-    name: ufw
-    state: started
-    enabled: yes
-
-- name: Default incoming rule
-  become: true
-  community.general.ufw:
-    default: deny
-    direction: incoming
-
-- name: Default outgoing rule
-  become: true
-  community.general.ufw:
-    default: deny
-    direction: incoming
-
-- name: Allow from local
-  become: true
-  community.general.ufw:
-    from: "192.168.0.0/24"
-    rule: allow
-
-- name: Allow ssh
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: ssh # TODO Change SSH port
-
-- name: Enable ufw
-  become: true
-  community.general.ufw:
-    state: enabled
+# - name: Install ufw frontends
+#   become: true
+#   pacman:
+#       name: gufw
+#   # TODO needs polkit configurated...
+#
+# - name: Disable iptables service
+#   become: true
+#   systemd:
+#     name: iptables
+#     enabled: no
+#     state: stopped
+#   register: iptables
+#
+# - name: Enable ufw service
+#   become: true
+#   when: iptables is succeeded
+#   systemd:
+#     name: ufw
+#     state: started
+#     enabled: yes
+#
+# - name: Default incoming rule
+#   become: true
+#   community.general.ufw:
+#     default: deny
+#     direction: incoming
+#
+# - name: Default outgoing rule
+#   become: true
+#   community.general.ufw:
+#     default: deny
+#     direction: incoming
+#
+# - name: Allow from local
+#   become: true
+#   community.general.ufw:
+#     from: "192.168.0.0/24"
+#     rule: allow
+#
+# - name: Allow ssh
+#   become: true
+#   community.general.ufw:
+#     rule: allow
+#     port: ssh # TODO Change SSH port
+#
+# - name: Enable ufw
+#   become: true
+#   community.general.ufw:
+#     state: enabled

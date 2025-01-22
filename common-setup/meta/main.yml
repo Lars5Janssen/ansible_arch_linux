@@ -32,6 +32,8 @@ galaxy_info:
 
 dependencies: 
   - role: user
+  - role: cron
+  - role: self-preservation
   - role: pacman 
   - role: network 
   - role: firewall

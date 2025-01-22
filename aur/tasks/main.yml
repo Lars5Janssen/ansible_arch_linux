@@ -16,16 +16,17 @@
 
 - name: Download Paru
   when: paru_installed.rc != 0
+  become_user: "{{ username }}"
   git:
     repo: 'https://aur.archlinux.org/paru.git'
-    dest: /home/l/
+    dest: "/home/{{ username }}"
   register: clone_result
 
 - name: Install Paru
   when: paru_installed.rc != 0 and clone_result is succeeded
   become: true
   command:
-    chdir: /home/l/paru/
+    chdir: "/home/{{ username }}/paru/"
     argv:
       - makepkg
       - -si
@@ -34,4 +35,4 @@
   when: paru_installed.rc != 0
   file:
     state: absent
-    path: /home/l/paru/
+    path: "/home/{{ username }}/paru/"

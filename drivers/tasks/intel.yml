@@ -32,7 +32,8 @@
 
 - name: Remove Intell Drivers
   become: true
-  when: intel.stdout.find('vendor_id	= GenuineIntel') == -1
+  # when: intel.stdout.find('vendor_id	= GenuineIntel') == -1
+  when: false
   pacman:
     state: absent
     name: 

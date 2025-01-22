@@ -1,4 +1,5 @@
 #!/bin/bash
+# TODO REFACTOR FUNCTION OUT
 cd $1
 PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
 GIT_STATUS="$(git status --porcelain)"

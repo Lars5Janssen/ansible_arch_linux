@@ -13,7 +13,8 @@
   register: script
   copy:
     src: "{{ role_path }}/files/update_flatpak.sh"
-    dest: ~/.local/cron/update_flatpak.sh
+    dest: "/home/{{ username }}/.local/cron/update_flatpak.sh"
+    owner: "{{ username }}"
     mode: '0755'
 
 - name: Flatpak Cron Job
@@ -21,6 +22,6 @@
     name: Update Flatpaks
     special_time: weekly
     user: l
-    job: ~/.local/cron/update_flatpak.sh
+    job: "/home/{{ username }}/.local/cron/update_flatpak.sh"
 
 # TODO XDG Desktop Portal Config

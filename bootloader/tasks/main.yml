@@ -68,7 +68,7 @@
   register: os_prober
 
 - name: Update Grub Config
-  # when: false
+  become: true
   when: os_prober is changed or installed_theme is changed
   command:
     argv:

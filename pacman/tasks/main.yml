@@ -20,6 +20,13 @@
       [multilib]
       Include = /etc/pacman.d/mirrorlist
 
+- name: Copy Pacman cron job
+  copy:
+    src: "{{ role_path }}/files/pacman_update_checker.sh"
+    dest: "{{ homedir }}/.local/etc/cron.daily/pacman_update_checker.sh"
+    owner: "{{ username }}"
+    mode: '0755'
+
 - name: Install Relector
   become: true
   pacman:
@@ -28,7 +35,9 @@
   register: reflector
 
 - name: Use Reflector
+  become: true
   cron:
     name: "Pacman Reflector"
     special_time: weekly
+    user: "{{ rootusername }}"
     job: reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist

@@ -6,3 +6,4 @@ username=l
 homedir=/home/l
 hostname=arch
 githubssh=false
+rootusername=root

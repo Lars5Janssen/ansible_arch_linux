@@ -1,4 +1,18 @@
 - name: Testing
   hosts: self
   roles:
+    - flatpak
     - userspace
+
+  tasks:
+    # - name: flatpak test
+    #   register: f
+    #   command:
+    #     argv:
+    #       - flatpak
+    #       - update
+    #       - --assumeyes
+    # - name: d
+    #   debug:
+    #     var: f.stderr
+

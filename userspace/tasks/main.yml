@@ -70,6 +70,8 @@
     method: system
     name: com.discordapp.DiscordCanary
 
+
+# TODO Refactor KeyD into own roll
 - name: Install KeyD
   pacman:
     name: keyd

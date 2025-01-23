@@ -24,7 +24,7 @@
 
 - name: Fetch public key
   fetch:
-    dest: "~/Projects/ansible/ssh-keys/id_ed25519.pub"
+    dest: "~/Projects/ansible/ssh-keys/{{ hostname }}-{{ inventory_hostname }}-id_ed25519.pub"
     src: "{{ homedir }}/.ssh/id_ed25519.pub"
 
 # TODO GIT

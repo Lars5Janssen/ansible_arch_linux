@@ -4,3 +4,5 @@ localhost ansible_connection=local
 [all:vars]
 username=l
 homedir=/home/l
+hostname=arch
+githubssh=false

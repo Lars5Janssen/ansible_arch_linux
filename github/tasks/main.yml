@@ -1,3 +1,37 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for github
+- name: Ensure github cli on local
+  when: githubssh == "true"
+  delegate_to: 127.0.0.1
+  pacman:
+    name: github-cli
+
+  # TODO Error handeling
+  # TODO gh auth login -s admin:public_key
+- name: upload ssh-key
+  when: githubssh == "true"
+  delegate_to: 127.0.0.1
+  register: gh
+  command:
+    argv:
+      - gh
+      - ssh-key
+      - add
+      - "{{ homedir }}/Projects/ansible/ssh-keys/{{ hostname }}-{{ inventory_hostname }}-id_ed25519.pub/{{ inventory_hostname }}{{ homedir }}/.ssh/id_ed25519.pub" # INVISIBLE / between inv hostname and homedir (homedir starts with /)
+  changed_when: gh.stderr.find('✓ Public key already exists on your account') == -1
+
+- name: debug
+  when: gh is changed or gh is not succeeded
+  debug:
+    var: gh
+
+- name: log github-cli action
+  when: githubssh == "true"
+  delegate_to: 127.0.0.1
+  lineinfile:
+    path: "{{ homedir }}/logs/github-cli/gh-ssh-add.log"
+    line: "{{ gh }}"
+    state: present
+    create: true
+  changed_when: false

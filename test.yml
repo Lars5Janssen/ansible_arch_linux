@@ -1,5 +1,4 @@
 - name: Testing
   hosts: self
   roles:
-    - user
-    # - github
+    - github

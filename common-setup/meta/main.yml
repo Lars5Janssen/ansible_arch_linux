@@ -33,13 +33,14 @@ galaxy_info:
 dependencies: 
   - role: user
   - role: cron
-  - role: self-preservation
+  - role: drivers
   - role: pacman 
   - role: network 
   - role: firewall
   - role: aur 
-  - role: drivers
+  - role: github 
   - role: dotfiles 
+  - role: self-preservation
   - role: nvim 
   - role: hyprland 
   - role: flatpak 

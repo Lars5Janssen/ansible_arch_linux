@@ -19,7 +19,7 @@
   become_user: "{{ username }}"
   git:
     repo: 'https://aur.archlinux.org/paru.git'
-    dest: "/home/{{ username }}/paru/"
+    dest: "{{ homedir }}/paru/"
   register: clone_result
 
 - name: Remove Sudo PW Check
@@ -35,7 +35,7 @@
   when: paru_installed.rc != 0 and clone_result is succeeded
   become_user: "{{ username }}"
   command:
-    chdir: "/home/{{ username }}/paru/"
+    chdir: "{{ homedir }}/paru/"
     argv:
       - makepkg
       - -si
@@ -53,4 +53,4 @@
   when: paru_installed.rc != 0
   file:
     state: absent
-    path: "/home/{{ username }}/paru/"
+    path: "{{ homedir }}/paru/"

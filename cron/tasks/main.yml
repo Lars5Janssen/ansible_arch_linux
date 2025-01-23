@@ -15,7 +15,7 @@
 - name: Place Git Repo check script
   copy:
     src: "{{ role_path }}/files/git_repo_check_cron.sh"
-    dest: "/home/{{ username }}/.local/cron/git_repo_check_cron.sh"
+    dest: "{{ homedir }}/.local/cron/git_repo_check_cron.sh"
     owner: "{{ username }}"
     mode: '0755'
 

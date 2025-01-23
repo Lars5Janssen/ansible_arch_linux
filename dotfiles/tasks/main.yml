@@ -10,13 +10,13 @@
 - name: Check for and or Download Dotfiles
   git:
     repo: git@github.com:Lars5Janssen/dotfiles.git
-    dest: "/home/{{ username }}/dotfiles/"
+    dest: "{{ homedir }}/dotfiles/"
     update: no
 
 - name: Stow Dotfiles
   when: stow is succeeded
   command:
-    chdir: "/home/{{ username }}/dotfiles/"
+    chdir: "{{ homedir }}/dotfiles/"
     cmd: stow . -v
   register: result
   changed_when: result.stdout.find('LINK') != -1
@@ -27,4 +27,4 @@
     name: dotfiles reminder
     minute: "*/10"
     user: "{{ username }}"
-    job: "/home/{{ username }}/.local/cron/git_repo_check_cron.sh /home/{{ username }}/dotfiles/ 600000"
+    job: "{{ homedir }}/.local/cron/git_repo_check_cron.sh {{ homedir }}/dotfiles/ 600000"

@@ -2,21 +2,26 @@
 ---
 # tasks file for user
 - name: Ensure User
-  check_mode: true
   user:
     name: "{{ username }}"
+    home: "{{ homedir }}"
     groups: wheel
     shell: /bin/zsh
-    # TODO SSH KEY???
+    generate_ssh_key: true
+    ssh_key_type: ed25519
+    ssh_key_file: "{{ homedir }}/.ssh/id_ed25519"
     append: true 
 
 - name: Home Sub directories
   file:
     state: directory
-    path: "/home/{{ username }}/{{ item }}"
+    path: "{{ homedir }}/{{ item }}"
     owner: "{{ username }}"
   loop:
     - Projects
     - logs
+    - .ssh
+
+- name: Fetch public key
 
 # TODO GIT

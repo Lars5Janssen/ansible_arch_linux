@@ -2,18 +2,7 @@
   hosts: self
   roles:
     # - flatpak
-    - dotfiles
+    - powermanagment
     # - network
 
   tasks:
-    # - name: flatpak test
-    #   register: f
-    #   command:
-    #     argv:
-    #       - flatpak
-    #       - update
-    #       - --assumeyes
-    # - name: d
-    #   debug:
-    #     var: f.stderr
-

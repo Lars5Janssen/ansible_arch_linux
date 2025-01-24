@@ -37,7 +37,7 @@ fi
 BODY=""
 if [[ "$CLEAN_DIR" == "FALSE" ]]; then
     BODY="$UNCOMITTED_STRING $UNPUSHED_STRING $UNPULLED_STRING"
-    send-notification "$PRITTY_DIR is not up to date" "$BODY" --urgency=critical --expire-time="$2"
+    send-notification "$PRITTY_DIR is not up to date" "$BODY" --expire-time="$2"
 
     # LOGGING Only when Notification was sent
     DATE="$(date -u +%Y-%m-%d-%H-%M-%S)"

@@ -5,24 +5,24 @@
   become: true
   package:
     name: stow
-  register: stow
 
 - name: Check for and or Download Dotfiles
+  register: stow
   git:
     repo: git@github.com:Lars5Janssen/dotfiles.git
     dest: "{{ homedir }}/dotfiles/"
     update: no
 
 - name: Stow Dotfiles
-  when: stow is succeeded
+  when: stow is changed
   command:
     chdir: "{{ homedir }}/dotfiles/"
-    cmd: stow . -v
+    cmd: stow --dotfiles . -v 
   register: result
   changed_when: result.stdout.find('LINK') != -1
   failed_when: result.rc != 0
 
-- name: Cron Reminder
+- name: Git Repo Check Notification for Dotfiles
   cron:
     name: dotfiles reminder
     minute: "*/10"

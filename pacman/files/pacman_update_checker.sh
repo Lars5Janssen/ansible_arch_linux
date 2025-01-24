@@ -6,7 +6,7 @@ send-notification ()
 
 if checkupdates
 then
-    send-notification "Pacman Updates available" --urgency=critical --expire-time=1800000
+    send-notification "Pacman Updates available" --expire-time=1800000
 else
     send-notification "No Pacman Updates available"
 fi

@@ -12,7 +12,7 @@ LOG_FILE=~/logs/flatpak_updates/"$DATE".log
 flatpak update --assumeyes >> "$LOG_FILE" 2>&1
 if cat "$LOG_FILE" | grep --quiet 'errors'
 then
-    send-notification  "Errors during Flatpak update" --urgency=critical 
+    send-notification  "Errors during Flatpak update" --urgency=critical --expire-time=600000
 elif cat "$LOG_FILE" | grep --quiet 'Nothing to do.'
 then
     send-notification  "Finished Flatpak Update" "Nothing to do"

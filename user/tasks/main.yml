@@ -29,6 +29,7 @@
     - Projects
     - Videos
     - .ssh
+    - .config
 
 - name: Fetch public key
   fetch: 

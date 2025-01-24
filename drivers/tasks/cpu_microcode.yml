@@ -10,25 +10,34 @@
   debug: 
     msg: TODO
 
-# TODO
 - name: Check for not both
-  when: intel.stdout.find('vendor_id	= GenuineIntel') != -1 and false
+  when: 
+    - ansible_facts['processor'][1].find("Intel") != -1
+    - false # TODO AMD
   debug:
     msg: Detected Both AMD and Intel CPU --> DANGER
   failed_when: true
 
+#######################
+###      INTEL      ###
+#######################
+
 - name: Install Intell Microcode
-  when: intel.stdout.find('vendor_id	= GenuineIntel') != -1
+  when: ansible_facts['processor'][1].find("Intel") != -1
   become: true
   pacman:
     name: intel-ucode
 
 - name: Remove Intell Microcode
-  when: intel.stdout.find('vendor_id	= GenuineIntel') == -1
+  when: not ansible_facts['processor'][1].find("Intel") != -1
   become: true
   pacman:
     state: absent
     name: intel-ucode
+
+#######################
+###       AMD       ###
+#######################
 
 - name: Install AMD microcode
   when: false

@@ -53,7 +53,7 @@
 - name: Install Flatpak Apps
   become_user: "{{ username }}"
   flatpak:
-    method: user
+    # method: user
     name:
       - com.discordapp.Discord
       - com.jetbrains.GoLand

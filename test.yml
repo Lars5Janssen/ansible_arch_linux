@@ -1,8 +1,9 @@
 - name: Testing
   hosts: self
   roles:
-    - flatpak
+    # - flatpak
     - userspace
+    # - network
 
   tasks:
     # - name: flatpak test

@@ -7,7 +7,6 @@
     name:
       - networkmanager
       - networkmanager-openvpn
-      - dhcpcd
       # - polkit
 - name: Unwanted NetworkManagers
   become: true
@@ -17,17 +16,24 @@
       - iwd
       - netctl
       - systemd-networkd
+      - dhcpcd
       - connman
       - dhcpclient
 
-- name: dhcpcd
+# - name: dhcpcd
+#   become: true
+#   blockinfile:
+#     create: true
+#     path: /etc/NetworkManager/conf.d/dhcpcd.conf
+#     block: |
+#       [main]
+#       dhcp=dhcpcd
+
+- name: remove dhcpcd
   become: true
-  blockinfile:
-    create: true
+  file:
+    state: absent
     path: /etc/NetworkManager/conf.d/dhcpcd.conf
-    block: |
-      [main]
-      dhcp=dhcpcd
 
 - name: Enable NetworkManager
   become: true

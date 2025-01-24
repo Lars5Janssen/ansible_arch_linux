@@ -1,0 +1,65 @@
+---
+# TODO
+- name: Check for Nvidia Card
+  debug:
+    msg: TODO
+  register: nvidia
+
+- name: Check for Intel CPU
+  register: intel
+  shell: cat /proc/cpuinfo | grep 'vendor' | uniq | sed 's/:/=/' 
+  changed_when: false
+
+- name: Check for not both
+  when: intel.stdout.find('vendor_id	= GenuineIntel') != -1 and false
+  debug:
+    msg: Found both Nvidia GPU and Intel CPU --> DANGER
+  failed_when: true
+
+- name: Check for 32 Bit Support
+  blockinfile:
+    path: /etc/pacman.conf
+    state: present
+    block: |
+      [multilib]
+      Include = /etc/pacman.d/mirrorlist
+  check_mode: true
+  register: multilib_support
+
+- name: Install Nivdia 32 Bit drivers
+  when: multilib_support is succeeded and false # TODO AND NVIDIA
+  become: true
+  pacman:
+    name: lib32-nvidia-utils
+
+- name: Remove Nivdia 32 Bit drivers
+  when: multilib_support is not succeeded or not false # TODO OR NOT NVIDIA
+  become: true
+  pacman:
+    state: absent
+    name: lib32-nvidia-utils
+
+- name: Install Nivdia drivers and etc
+  when: false # TODO NVIDIA
+  become: true
+  pacman:
+    name:
+      - nivida
+
+- name: Remove Nivdia drivers and etc
+  when: true # TODO NOT NVIDIA
+  become: true
+  pacman:
+    state: absent
+    name:
+      - nivida
+      - nvidia-utils
+      - lib32-nvidia-utils
+
+- name: Install Intel Driver
+  when: intel.stdout.find('vendor_id	= GenuineIntel') != -1
+  pacman:
+
+- name: Remove Intel Driver
+  when: intel.stdout.find('vendor_id	= GenuineIntel') != -1
+  pacman:

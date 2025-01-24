@@ -1,5 +1,0 @@
----
-# TODO
-- name: Check for AMD
-  debug:
-    msg: TODO

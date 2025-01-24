@@ -1,6 +1,0 @@
----
-# TODO
-- name: Check for Nvidia Card
-  debug:
-    msg: TODO
-  register: nvidia

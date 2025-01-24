@@ -2,11 +2,8 @@
 ---
 # TODO
 # tasks file for drivers
-- name: Intel
-  include_tasks: intel.yml
+- name: CPU Microcode
+  import_tasks: cpu_microcode.yml
 
-- name: AMD
-  include_tasks: amd.yml
-
-- name: Nvidia
-  include_tasks: nvidia.yml
+- name: GPU Drivers
+  import_tasks: gpu_drivers.yml

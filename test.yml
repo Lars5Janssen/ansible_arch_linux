@@ -1,8 +1,6 @@
 - name: Testing
   hosts: self
   roles:
-    # - flatpak
-    - powermanagment
-    # - network
+    - drivers
 
   tasks:

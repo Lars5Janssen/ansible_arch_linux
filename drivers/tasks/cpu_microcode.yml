@@ -1,0 +1,44 @@
+---
+- name: Check for Intel CPU
+  register: intel
+  shell: cat /proc/cpuinfo | grep 'vendor' | uniq | sed 's/:/=/' 
+  changed_when: false
+
+# TODO
+- name: Check for AMD
+  register: amd
+  debug: 
+    msg: TODO
+
+# TODO
+- name: Check for not both
+  when: intel.stdout.find('vendor_id	= GenuineIntel') != -1 and false
+  debug:
+    msg: Detected Both AMD and Intel CPU --> DANGER
+  failed_when: true
+
+- name: Install Intell Microcode
+  when: intel.stdout.find('vendor_id	= GenuineIntel') != -1
+  become: true
+  pacman:
+    name: intel-ucode
+
+- name: Remove Intell Microcode
+  when: intel.stdout.find('vendor_id	= GenuineIntel') == -1
+  become: true
+  pacman:
+    state: absent
+    name: intel-ucode
+
+- name: Install AMD microcode
+  when: false
+  become: true
+  pacman:
+    name: amd-ucode
+
+- name: Remove AMD microcode
+  when: true
+  become: true
+  pacman:
+    name: amd-ucode
+    state: absent

@@ -6,6 +6,7 @@
     path: /etc/pacman.conf
     state: "{{ item.state }}"
     line: "{{ item.option }}"
+    insertafter: ^\[options\]$
   loop:
     - { option: Color, state: present}
     - { option: ILoveCandy, state: present}

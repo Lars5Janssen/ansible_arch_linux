@@ -18,8 +18,16 @@
     path: "{{ homedir }}/{{ item }}"
     owner: "{{ username }}"
   loop:
-    - Projects
+    - Desktop
+    - Documents
+    - Downloads
+    - KPXCDB
     - logs
+    - Music
+    - Nextcloud
+    - Pictures
+    - Projects
+    - Videos
     - .ssh
 
 - name: Fetch public key

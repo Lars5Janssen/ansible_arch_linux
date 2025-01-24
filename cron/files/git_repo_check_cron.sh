@@ -1,5 +1,9 @@
 #!/bin/bash
 # TODO REFACTOR FUNCTION OUT
+MINWAIT=1
+MAXWAIT=300
+SLEEP_DUR=$((MINWAIT+RANDOM % (MAXWAIT-MINWAIT)))
+sleep $SLEEP_DUR
 cd $1
 PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
 GIT_STATUS="$(git status --porcelain)"
@@ -33,7 +37,7 @@ fi
 BODY=""
 if [[ "$CLEAN_DIR" == "FALSE" ]]; then
     BODY="$UNCOMITTED_STRING $UNPUSHED_STRING $UNPULLED_STRING"
-    send-notification "$PRITTY_DIR is not up to date" "$BODY" --urgency=critical --expire-time="$2"
+    send-notification "$PRITTY_DIR is not up to date" "$BODY" --urgency=critical --expire-time="$((2-SLEEP_DUR*1000))"
 
     # LOGGING Only when Notification was sent
     DATE="$(date -u +%Y-%m-%d-%H-%M-%S)"

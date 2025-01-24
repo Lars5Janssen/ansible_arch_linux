@@ -20,9 +20,9 @@
     user: "{{ username }}"
     job: "nice {{ homedir }}/.local/cron/battery_low_notification.sh 25"
 
-- name: Battery low critical
+- name: Battery critical notification
   cron:
-    name: battery low notification
+    name: battery critical notification
     minute: "*/5"
     user: "{{ username }}"
     job: "nice {{ homedir }}/.local/cron/battery_low_notification.sh 10 critical"

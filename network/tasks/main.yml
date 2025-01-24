@@ -9,6 +9,7 @@
       - networkmanager-openvpn
       - dhcpcd
       # - polkit
+
 - name: Unwanted NetworkManagers
   become: true
   pacman:
@@ -21,6 +22,7 @@
       - dhcpclient
 
 - name: dhcpcd
+  register: dhcpcd_nm_conf
   become: true
   blockinfile:
     create: true
@@ -41,6 +43,12 @@
     name: NetworkManager
     state: started
     enabled: yes
+
+- name: Reload NetworkManager
+  when: dhcpcd_nm_conf is changed
+  systemd:
+    name: NetworkManager
+    state: reloaded
 
 # TODO
 # - name: Eduroam

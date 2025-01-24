@@ -1,6 +1,5 @@
 #!/bin/bash
 # TODO REFACTOR FUNCTION OUT
-# TODO LOGGING
 cd $1
 PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
 GIT_STATUS="$(git status --porcelain)"
@@ -37,7 +36,7 @@ if [[ "$CLEAN_DIR" == "FALSE" ]]; then
     send-notification "$PRITTY_DIR is not up to date" "$BODY" --urgency=critical --expire-time="$2"
 
     # LOGGING Only when Notification was sent
-    DATE="$(date -u +%Y-%m-%d-%S)"
+    DATE="$(date -u +%Y-%m-%d-%H-%M-%S)"
     LOGPATH=~/logs/git_repo_check
     mkdir "$LOGPATH" --parents
     LOGFILE="$LOGPATH/$PRITTY_DIR-AT-$DATE.log"

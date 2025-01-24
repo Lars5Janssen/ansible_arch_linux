@@ -28,3 +28,6 @@
     minute: "*/10"
     user: "{{ username }}"
     job: "{{ homedir }}/.local/cron/git_repo_check_cron.sh {{ homedir }}/dotfiles/ 600000"
+
+- name: Btop
+  import_tasks: btop.yml

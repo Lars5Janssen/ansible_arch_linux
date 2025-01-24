@@ -1,0 +1,23 @@
+- name: Install KeyD
+  pacman:
+    name: keyd
+
+- name: KeyD Config
+  copy:
+    src: "{{ role_path }}/files/keyd.conf"
+    dest: "/etc/keyd/default.conf"
+  register: keyd_config
+
+- name: Enable KeyD
+  systemd:
+    state: started
+    enabled: yes
+    name: keyd
+
+- name: Reload KeyD
+  when: keyd_config is changed
+  become: true
+  command:
+    argv:
+      - keyd
+      - reload

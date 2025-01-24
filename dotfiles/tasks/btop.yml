@@ -1,0 +1,22 @@
+- name: Install btop
+  become: true
+  pacman:
+    name: btop
+
+- name: Ensure Btop themes
+  lineinfile:
+    create: true
+    path: "{{ homedir }}/.config/btop/btop.conf"
+    line: 'color_theme = "{{ homedir }}/.config/btop/themes/catppuccin_mocha.theme"'
+
+- name: Ensure Btop truecolor
+  lineinfile:
+    create: true
+    path: "{{ homedir }}/.config/btop/btop.conf"
+    line: truecolor = True
+
+- name: Ensure Btop vim keys
+  lineinfile:
+    create: true
+    path: "{{ homedir }}/.config/btop/btop.conf"
+    line: vim_keys = True

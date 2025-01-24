@@ -41,4 +41,4 @@
     name: "Pacman Reflector"
     special_time: weekly
     user: "{{ rootusername }}"
-    job: reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist
+    job: nice reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist

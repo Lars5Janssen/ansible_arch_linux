@@ -16,13 +16,13 @@
 - name: Battery low notification
   cron:
     name: battery low notification
-    minute: "*/30"
+    minute: "*/15"
     user: "{{ username }}"
-    job: "{{ homedir }}/.local/cron/battery_low_notification.sh 25"
+    job: "nice {{ homedir }}/.local/cron/battery_low_notification.sh 25"
 
 - name: Battery low critical
   cron:
     name: battery low notification
     minute: "*/5"
     user: "{{ username }}"
-    job: "{{ homedir }}/.local/cron/battery_low_notification.sh 10 critical"
+    job: "nice {{ homedir }}/.local/cron/battery_low_notification.sh 10 critical"

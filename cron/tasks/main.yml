@@ -6,10 +6,12 @@
   pacman:
     name: cronie
 
-- name: Install Notify send (For scripts)
+- name: Install Script dependencies
   become: true
   pacman:
-    name: libnotify
+    name: 
+      - libnotify
+      - coreutils
 
 # TODO LOG CLEANUP SCRIPT
 - name: Place Git Repo check script

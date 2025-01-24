@@ -11,7 +11,7 @@ then
     then
         urgent=""
         status="low"
-        if [ $2 == "critical" ]; then
+        if [[ $2 == "critical" ]]; then
             status="critical!"
             urgent="--urgency=critical --expire-time=30000"
         fi

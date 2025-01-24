@@ -23,6 +23,6 @@
 - name: Battery low critical
   cron:
     name: battery low notification
-    minute: "*/15"
+    minute: "*/5"
     user: "{{ username }}"
     job: "{{ homedir }}/.local/cron/battery_low_notification.sh 10 critical"

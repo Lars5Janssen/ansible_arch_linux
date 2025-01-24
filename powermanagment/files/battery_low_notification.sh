@@ -18,7 +18,7 @@ then
                 fi
             fi
             status="critical!"
-            urgent="--urgency=critical --expire-time=10000"
+            urgent="--urgency=critical --expire-time=20000"
         fi
         send-notification "Battery ${status}" "Battery level is ${battery_level}%!" $urgent
     fi

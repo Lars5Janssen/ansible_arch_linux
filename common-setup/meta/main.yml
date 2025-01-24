@@ -41,6 +41,7 @@ dependencies:
   - role: github 
   - role: dotfiles 
   - role: self-preservation
+  - role: fonts 
   - role: nvim 
   - role: hyprland 
   - role: flatpak 

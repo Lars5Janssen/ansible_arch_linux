@@ -1,3 +1,14 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for fonts
+- name: Ensure fontconfig
+  become: true
+  pacman:
+    name: fontconfig
+
+- name: Rebuild font cache once a month
+  copy:
+    src: "{{ role_path }}/files/fontcache.sh"
+    dest: "{{ homedir }}/.local/etc/cron.monthly/fontcache-rebuild.sh"
+    owner: "{{ username }}"
+    mode: '0755'

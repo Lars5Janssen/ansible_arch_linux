@@ -4,13 +4,17 @@ send-notification ()
     XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send "$1" "$2" $3 $4 
 }
 
-min_wait=0
-max_wait=59
-sleep $((min_wait+RANDOM % (max_wait-min_wait)))
+if [[ $1 == "delay" ]]; then
+    min_wait=0
+    max_wait=59
+    sleep_dur=$((min_wait+RANDOM % (max_wait-min_wait)))
+    sleep "$sleep_dur"m
+fi
 
 if checkupdates
 then
-    send-notification "Pacman Updates available" --expire-time=1800000
+    number_of_updateable_packages="$(checkupdates | wc -l)"
+    send-notification "Pacman Updates available" "$number_of_updateable_packages updates available" --expire-time=60000
 else
     send-notification "No Pacman Updates available"
 fi

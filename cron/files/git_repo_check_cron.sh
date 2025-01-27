@@ -4,6 +4,10 @@
 # MAXWAIT=300
 # SLEEP_DUR=$((MINWAIT+RANDOM % (MAXWAIT-MINWAIT)))
 # sleep $SLEEP_DUR
+min_wait=0
+max_wait=9
+sleep_dur=$((min_wait+RANDOM % (max_wait-min_wait)))
+sleep "$sleep_dur"m
 cd $1
 PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
 GIT_STATUS="$(git status --porcelain)"

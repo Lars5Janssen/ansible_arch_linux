@@ -33,7 +33,7 @@
     name: "Pacman Reminder"
     hour: "*/3"
     user: "{{ username }}"
-    job: "nice {{ homedir }}/.local/etc/cron.daily/pacman_update_checker.sh"
+    job: "nice {{ homedir }}/.local/etc/cron.daily/pacman_update_checker.sh delay"
 
 - name: Install Relector
   become: true

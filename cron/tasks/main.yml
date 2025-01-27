@@ -58,13 +58,9 @@
       START_HOURS_RANGE=3-22
 
       #period in days delay in minutes  job-identifier  command
-      1               5                 cron.daily      nice find {{ homedir }}/.local/etc/cron.daily/* -prune -type f -executable -exec {} \;
-      7               25                cron.weekly     nice find {{ homedir }}/.local/etc/cron.weekly/* -prune -type f -executable -exec {} \;
+      @daily          15                cron.daily      nice find {{ homedir }}/.local/etc/cron.daily/* -prune -type f -executable -exec {} \;
+      @weekly         25                cron.weekly     nice find {{ homedir }}/.local/etc/cron.weekly/* -prune -type f -executable -exec {} \;
       @monthly        45                cron.monthly    nice find {{ homedir }}/.local/etc/cron.monthly/* -prune -type f -executable -exec {} \;
-  # copy:
-  #   src: "{{ role_path }}/files/anacrontab"
-  #   dest: "{{ homedir }}/.local/etc/anacrontab"
-  #   owner: "{{ username }}"
 
 - name: Anacron cron job
   cron:

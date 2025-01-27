@@ -28,6 +28,13 @@
     owner: "{{ username }}"
     mode: '0755'
 
+- name: Pacman Cron Job
+  cron:
+    name: "Pacman Reminder"
+    hour: "*/3"
+    user: "{{ username }}"
+    job: "nice {{ homedir }}/.local/etc/cron.daily/pacman_update_checker.sh"
+
 - name: Install Relector
   become: true
   pacman:
@@ -39,6 +46,6 @@
   become: true
   cron:
     name: "Pacman Reflector"
-    special_time: weekly
+    hour: "*/6"
     user: "{{ rootusername }}"
     job: nice reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist

@@ -27,12 +27,20 @@
 ###      NVIDIA     ###
 #######################
 
+###     Install     ###
+- name: Install Nivdia drivers and etc
+  when: false # TODO NVIDIA is succeeded
+  become: true
+  pacman:
+    name: nivida
+
 - name: Install Nivdia 32 Bit drivers
   when: multilib_support is succeeded and false # TODO NVIDIA is succeeded
   become: true
   pacman:
     name: lib32-nvidia-utils
 
+###      Remove     ###
 - name: Remove Nivdia 32 Bit drivers
   when: multilib_support is not succeeded or not false # TODO OR NOT NVIDIA is succeeded
   become: true
@@ -40,11 +48,6 @@
     state: absent
     name: lib32-nvidia-utils
 
-- name: Install Nivdia drivers and etc
-  when: false # TODO NVIDIA is succeeded
-  become: true
-  pacman:
-    name: nivida
 
 - name: Remove Nivdia drivers and etc
   when: true # TODO NOT NVIDIA is succeeded
@@ -57,15 +60,10 @@
 ###       INTEL     ###
 #######################
 
+###     Install     ###
 - name: Install Intel Driver
   when: ansible_facts['processor'][1].find("Intel") != -1
   pacman:
-    name: vulkan-intel
-
-- name: Remove Intel Driver
-  when: not ansible_facts['processor'][1].find("Intel") != -1
-  pacman:
-    state: absent
     name: vulkan-intel
 
 - name: Install Intel 32 Bit Driver
@@ -75,7 +73,14 @@
   pacman:
     name: lib32-vulkan-intel
 
+###      Remove     ###
 - name: Remove Intel Driver
+  when: not ansible_facts['processor'][1].find("Intel") != -1
+  pacman:
+    state: absent
+    name: vulkan-intel
+
+- name: Remove Intel 32 Bit Driver
   when: not ansible_facts['processor'][1].find("Intel") != -1 or not multilib_support is succeeded
   pacman:
     state: absent

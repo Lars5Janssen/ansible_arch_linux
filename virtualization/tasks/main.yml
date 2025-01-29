@@ -49,7 +49,35 @@
     groups: libvirt
     append: true 
 
-# TODO Network bridge for firewall
+- name: Check for firwall (ufw)
+  command:
+    argv:
+      - which
+      - ufw
+  changed_when: false
+  register: ufw
+
+- name: Allow all incomming from virbr0
+  when: ufw is succeeded
+  become: true
+  community.general.ufw:
+    interface_in: virbr0
+    rule: allow
+
+- name: Allow all outcomming from virbr0
+  when: ufw is succeeded
+  become: true
+  community.general.ufw:
+    interface_out: virbr0
+    rule: allow
+
+- name: Allow all routed incomming from virbr0
+  when: ufw is succeeded
+  become: true
+  community.general.ufw:
+    interface_in: virbr0
+    route: true
+    rule: allow
 
 - name: Enable Libvirt
   become: true

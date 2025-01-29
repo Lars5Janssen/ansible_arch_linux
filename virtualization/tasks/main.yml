@@ -1,0 +1,31 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for virtualization
+- name: Install Frontend, Libvirt and Hyprvisor
+  become: true
+  pacman:
+    name:
+      - virt-manager # Frontend
+      - libvirt # Management
+      - qemu-full # Hyprvisor
+      # - dnsmasq
+
+- name: Add user to libvirt group
+  become: true
+  user:
+    name: "{{ username }}"
+    groups: libvirt
+    append: true 
+
+- name: Home Folder
+  file:
+    state: directory
+    path: "{{ homedir }}/VMs"
+    owner: "{{ username }}"
+    
+- name: Enable Libvirt QEMU connection
+  become: true
+  systemd:
+    name: libvirtd #.socket
+    state: started
+    enabled: yes

@@ -1,11 +1,6 @@
 - name: Testing
   hosts: self
   roles:
-    # - drivers
+    - virtualization 
 
   tasks:
-    - name: debug
-      when: ansible_facts['processor'][1].find("Intel") != -1
-      debug:
-        # var: ansible_facts['processor'][1]
-        msg: INTEL

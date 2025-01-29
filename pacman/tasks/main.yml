@@ -49,3 +49,4 @@
     hour: "*/6"
     user: "{{ rootusername }}"
     job: nice reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist
+    # TODO move to anacron and add logs

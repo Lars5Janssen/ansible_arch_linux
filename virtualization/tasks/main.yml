@@ -6,10 +6,42 @@
   pacman:
     name:
       - virt-manager # Frontend
+      - virt-viewer
       - libvirt # Management
       - qemu-full # Hyprvisor
-      # - dnsmasq
+      - dnsmasq
+      - vde2
+      - bridge-utils
+      - openbsd-netcat
+      - libguestfs
 
+- name: Home Folder
+  file:
+    state: directory
+    path: "{{ homedir }}/VMs"
+    owner: "{{ username }}"
+
+- name: Libvirtd conf sock group
+  become: true
+  lineinfile:
+    path: /etc/libvirt/libvirtd.conf
+    line: unix_sock_group = "libvirt"
+    insertafter: ^#unix_sock_group = "libvirt"$
+
+- name: Libvirtd conf sock ro perms
+  become: true
+  lineinfile:
+    path: /etc/libvirt/libvirtd.conf
+    line: unix_sock_ro_perms = "0777"
+    insertafter: ^#unix_sock_ro_perms = "0777"$
+
+- name: Libvirtd conf sock rw perms
+  become: true
+  lineinfile:
+    path: /etc/libvirt/libvirtd.conf
+    line: unix_sock_rw_perms = "0770"
+    insertafter: ^#unix_sock_rw_perms = "0770"$
+    
 - name: Add user to libvirt group
   become: true
   user:
@@ -17,15 +49,11 @@
     groups: libvirt
     append: true 
 
-- name: Home Folder
-  file:
-    state: directory
-    path: "{{ homedir }}/VMs"
-    owner: "{{ username }}"
-    
-- name: Enable Libvirt QEMU connection
+# TODO Network bridge for firewall
+
+- name: Enable Libvirt
   become: true
   systemd:
-    name: libvirtd #.socket
+    name: libvirtd
     state: started
     enabled: yes

@@ -61,6 +61,7 @@
 #     append: true
 #     hidden: false
 
+# TODO unsafe
 - name: Sudoers paru_ansible
   become: true
   community.general.sudoers:

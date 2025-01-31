@@ -10,17 +10,19 @@ if [[ $3 != "no-wait" ]]; then
     sleep_dur=$((min_wait+RANDOM % (max_wait-min_wait)))
     sleep "$sleep_dur"m
 fi
+
 cd $1
-PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
+
 GIT_STATUS="$(git status --porcelain)"
 UNPUSHED_COMMITS="$(git push --dry-run 2>&1 | grep 'Everything up-to-date')"
-GIT_PULL="$(git pull --dry-run 2>&1)"
-CLEAN_DIR="TRUE"
+# GIT_PULL="$(git pull --dry-run 2>&1)"
 
 send-notification ()
 {
     XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send "$1" "$2" $3 $4 
 }
+
+CLEAN_DIR="TRUE"
 
 UNCOMITTED_STRING=""
 if [[ "$GIT_STATUS" != "" ]]; then
@@ -42,6 +44,7 @@ fi
 
 BODY=""
 if [[ "$CLEAN_DIR" == "FALSE" ]]; then
+    PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
     BODY="$UNCOMITTED_STRING $UNPUSHED_STRING $UNPULLED_STRING"
     send-notification "$PRITTY_DIR is not up to date" "$BODY" --expire-time="$2"
 

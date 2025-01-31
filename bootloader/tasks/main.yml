@@ -14,6 +14,7 @@
   become: true
   file:
     path: '/boot/grub/themes/catppuccin-mocha-grub-theme/{{ item.file }}'
+  failed_when: false
   loop:
     - { file: background.png }
     - { file: font.pf2 }

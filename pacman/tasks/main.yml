@@ -2,6 +2,7 @@
 ---
 # tasks file for pacman
 - name: Misc Pacman Config Options
+  become: true
   lineinfile:
     path: /etc/pacman.conf
     state: "{{ item.state }}"
@@ -12,7 +13,7 @@
     - { option: ILoveCandy, state: present}
     - { option: ParallelDownloads = 8, state: present}
 
-- name: 32-Bit (Multilib)
+- name: 32 Bit Support 
   become: true
   blockinfile:
     path: /etc/pacman.conf
@@ -20,6 +21,14 @@
     block: |
       [multilib]
       Include = /etc/pacman.d/mirrorlist
+    insertafter: ^#\[multilib\]$
+  register: multilib
+
+- name: Sync databse
+  when: multilib is changed
+  become: true
+  pacman:
+    update_cache: yes
 
 - name: Copy Pacman cron job
   copy:

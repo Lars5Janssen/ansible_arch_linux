@@ -28,10 +28,10 @@
 - name: Misc Gaming Programms (Pacman)
   become: true
   pacman:
-    name:
-      - gamescope
+    name: gamescope
     
 - name: Misc Gaming Programms (Flatpak)
+  become: true
   flatpak:
     name:
       - net.davidotek.pupgui2

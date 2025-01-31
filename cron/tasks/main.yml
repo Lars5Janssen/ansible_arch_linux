@@ -13,6 +13,13 @@
       - libnotify
       - coreutils
 
+- name: Make Cron dir
+  file:
+    path: "{{ homedir }}/.local/cron/"
+    state: directory
+    owner: "{{ username }}"
+
+
 # TODO LOG CLEANUP SCRIPT
 - name: Place Git Repo check script
   copy:

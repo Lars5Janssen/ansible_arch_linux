@@ -3,6 +3,7 @@
 # tasks file for login-manager
 # For Custom Login on TTY
 - name: Install GreetD
+  become: true
   pacman:
     name: 
       - greetd
@@ -38,10 +39,18 @@
       # in the `video` group.
       user = "greeter"
 
+# - name: Disable sddm
+#   when: greetd_config is succeeded # TODO or ()
+#   become: true
+#   systemd:
+#     name: sddm
+#     state: stopped
+#     enabled: no
+
 - name: Enable greetD
   when: greetd_config is succeeded # TODO or ()
   become: true
   systemd:
     name: greetd
-    state: started
+    # state: started
     enabled: yes

@@ -9,10 +9,12 @@
   changed_when: false
   failed_when: false
 
-- name: Install Base Devel
+- name: Install Base Devel and git
   become: true
   pacman:
-    name: base-devel
+    name: 
+      - base-devel
+      - git
 
 - name: Download Paru
   when: paru_installed.rc != 0
@@ -48,6 +50,24 @@
     user: "{{ username }}"
     commands: /usr/bin/pacman
     state: absent
+
+# - name: Paru User
+#   become: true
+#   user:
+#     name: paru_ansible
+#     create_home: true
+#     comment: "User to use parupacman wo pw"
+#     groups: wheel
+#     append: true
+#     hidden: false
+
+- name: Sudoers paru_ansible
+  become: true
+  community.general.sudoers:
+    name: allow pacman
+    user: "{{ username }}"
+    commands: /usr/bin/pacman
+    state: present
 
 - name: Ensure Paru CleanUp
   when: paru_installed.rc != 0

@@ -1,11 +1,20 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for userspace
+- name: Remove Unwanted Apps
+  become: true
+  pacman:
+    state: absent
+    name:
+      - rust
+      - alacritty
+
 - name: Install Pacman Apps
   become: true
   pacman:
     name:
       - tldr
+      - nnn
       - sl
       - kitty
       - vlc # Flatpak ?
@@ -31,29 +40,22 @@
       - fzf
       - openvpn
 
-- name: Unwanted Pacman Apps
-  become: true
-  pacman:
-    state: absent
-    name:
-      - alacritty
-
 - name: Install AUR Apps
-  command:
-    argv:
-      - paru 
-      - --noconfirm 
-      - --needed
-      - -S
-      - oh-my-posh-bin 
-      - mullvad-vpn-bin
+  shell: paru --noconfirm --needed -S oh-my-posh-bin mullvad-vpn-bin
   register: paru_output
   changed_when: paru_output.stderr.find('up to date -- skipping') == -1
 
+- name: Add the flathub user beta repo
+  become: true
+  community.general.flatpak_remote:
+    name: flathub-beta
+    state: present
+    flatpakrepo_url: https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+    method: system
+
 - name: Install Flatpak Apps
-  become_user: "{{ username }}"
+  become: true
   flatpak:
-    # method: user
     name:
       - com.discordapp.Discord
       - com.jetbrains.GoLand
@@ -65,6 +67,7 @@
       - chat.revolt.RevoltDesktop
 
 - name: Install Flatpak Beta Apps
+  become: true
   flatpak:
     remote: flathub-beta
     method: system

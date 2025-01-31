@@ -63,6 +63,7 @@
 ###     Install     ###
 - name: Install Intel Driver
   when: ansible_facts['processor'][1].find("Intel") != -1
+  become: true
   pacman:
     name: vulkan-intel
 
@@ -70,18 +71,21 @@
   when: 
     - ansible_facts['processor'][1].find("Intel") != -1
     - multilib_support is succeeded
+  become: true
   pacman:
     name: lib32-vulkan-intel
 
 ###      Remove     ###
 - name: Remove Intel Driver
   when: not ansible_facts['processor'][1].find("Intel") != -1
+  become: true
   pacman:
     state: absent
     name: vulkan-intel
 
 - name: Remove Intel 32 Bit Driver
   when: not ansible_facts['processor'][1].find("Intel") != -1 or not multilib_support is succeeded
+  become: true
   pacman:
     state: absent
     name: lib32-vulkan-intel

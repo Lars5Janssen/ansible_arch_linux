@@ -11,6 +11,7 @@
       - blueman
 
 - name: Enable bluetooth service
+  become: true
   systemd:
     name: bluetooth
     state: started

@@ -1,6 +1,6 @@
 - name: Testing
-  hosts: self
+  hosts: vm
   roles:
-    - virtualization 
+    - aur
 
   tasks:

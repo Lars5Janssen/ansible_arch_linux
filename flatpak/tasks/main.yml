@@ -2,12 +2,48 @@
 ---
 # tasks file for flatpak
 - name: Install Flatpak
+  become: true
   pacman:
     name: flatpak
+  register: fresh_flatpak_install
+
+- name: Add the flathub user repo
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+
+- name: Check for Flatpak system dir
+  check_mode: true
+  file:
+    path: /var/lib/flatpak/
+    state: directory
+  register: found_flatpak_dir
+
+- name: Flatpak repair System
+  when: fresh_flatpak_install is changed or found_flatpak_dir is changed
+  become: true
+  command:
+    argv:
+      - flatpak
+      - repair
+
+- name: Flatpak repair System
+  when: fresh_flatpak_install is changed or found_flatpak_dir is changed
+  become_user: "{{ username }}"
+  command:
+    argv:
+      - flatpak
+      - repair
+      - --user
+
 
 - name: Flatseal
+  become_user: "{{ username }}"
   flatpak:
     name: com.github.tchx84.Flatseal
+    method: user
 
 - name: Copy Cron Script
   register: script

@@ -10,8 +10,18 @@
   register: stow
   git:
     repo: git@github.com:Lars5Janssen/dotfiles.git
+    accept_newhostkey: true
     dest: "{{ homedir }}/dotfiles/"
     update: no
+
+- name: Delete old config files
+  when: stow is changed
+  file:
+    path: "{{ homedir }}/{{ item }}"
+    state: absent
+  loop:
+    - .bashrc
+    - .config/hypr
 
 - name: Stow Dotfiles
   when: stow is changed

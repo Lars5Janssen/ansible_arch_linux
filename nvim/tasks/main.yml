@@ -30,12 +30,6 @@
       #                      -python
 
 - name: Install AUR Server
-  command:
-    argv:
-      - paru 
-      - --noconfirm
-      - --needed
-      - -S
-      - dockerfile-language-server-bin
+  shell: paru -S dockerfile-language-server-bin --noconfirm --needed
   register: paru_output
   changed_when: paru_output.stderr.find('up to date -- skipping') == -1

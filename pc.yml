@@ -4,6 +4,7 @@
   roles:
     - common-setup
     - gaming
+    - virtualization
     - bluetooth
 
   tasks:

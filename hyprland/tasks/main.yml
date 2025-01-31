@@ -51,13 +51,13 @@
     name:
       - swww
 
+# TODO Abstrace background image (dir under home?)
+- name: Copy Irithyll Background
+  copy:
+    src: "{{ homedir }}/Pictures/irithyll.jpg"
+    dest: "{{ homedir }}/Pictures/irithyll.jpg"
+
 - name: tofi (Programm runner)
-  command:
-    argv:
-      - paru 
-      - --noconfirm
-      - --needed
-      - -S
-      - tofi
+  shell: paru -S tofi --needed --noconfirm
   register: paru_output
   changed_when: paru_output.stderr.find('up to date -- skipping') == -1

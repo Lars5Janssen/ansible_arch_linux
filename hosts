@@ -1,9 +1,13 @@
 [self]
 localhost ansible_connection=local
 
+[vm]
+192.168.122.214     ansible_connection=ssh
+
 [all:vars]
 username=l
 homedir=/home/l
 hostname=arch
-githubssh=false
+githubssh=true
 rootusername=root
+multilib=true

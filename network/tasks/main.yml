@@ -44,11 +44,11 @@
     state: started
     enabled: yes
 
-- name: Reload NetworkManager
-  when: dhcpcd_nm_conf is changed
-  systemd:
-    name: NetworkManager
-    state: reloaded
+# - name: Reload NetworkManager
+#   when: dhcpcd_nm_conf is changed
+#   systemd:
+#     name: NetworkManager
+#     state: reloaded
 
 # TODO
 # - name: Eduroam

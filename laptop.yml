@@ -5,6 +5,7 @@
   roles:
     - common-setup
     - usb-c-thunderbolt
+    - virtualization
     - powermanagment
     - bluetooth
 

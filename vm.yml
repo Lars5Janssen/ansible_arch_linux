@@ -1,0 +1,7 @@
+- name: VM Test
+  hosts: vm
+  roles:
+    - common-setup 
+    - powermanagment
+    - gaming
+    - bluetooth

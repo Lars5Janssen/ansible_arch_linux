@@ -1,6 +1,6 @@
 - name: Testing
-  hosts: vm
+  hosts: self
   roles:
-    - aur
+    - cron
 
   tasks:

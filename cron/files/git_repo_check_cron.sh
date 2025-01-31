@@ -4,14 +4,17 @@
 # MAXWAIT=300
 # SLEEP_DUR=$((MINWAIT+RANDOM % (MAXWAIT-MINWAIT)))
 # sleep $SLEEP_DUR
-min_wait=0
-max_wait=9
-sleep_dur=$((min_wait+RANDOM % (max_wait-min_wait)))
-sleep "$sleep_dur"m
+if [[ $3 != "no-wait" ]]; then
+    min_wait=0
+    max_wait=9
+    sleep_dur=$((min_wait+RANDOM % (max_wait-min_wait)))
+    sleep "$sleep_dur"m
+fi
 cd $1
 PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
 GIT_STATUS="$(git status --porcelain)"
 UNPUSHED_COMMITS="$(git push --dry-run 2>&1 | grep 'Everything up-to-date')"
+git status -v | grep --quiet 'ahead'
 GIT_PULL="$(git pull --dry-run 2>&1)"
 CLEAN_DIR="TRUE"
 
@@ -33,7 +36,7 @@ if [[ "$UNPUSHED_COMMITS" != "Everything up-to-date" ]]; then
 fi
 
 UNPULLED_STRING=""
-if [[ "$GIT_PULL" != "" ]]; then
+if git status -v | grep --quiet 'ahead'; then
     UNPULLED_STRING="New commits to pull\n"
     CLEAN_DIR="FALSE"
 fi

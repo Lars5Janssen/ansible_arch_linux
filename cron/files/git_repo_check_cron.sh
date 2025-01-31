@@ -14,7 +14,6 @@ cd $1
 PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
 GIT_STATUS="$(git status --porcelain)"
 UNPUSHED_COMMITS="$(git push --dry-run 2>&1 | grep 'Everything up-to-date')"
-git status -v | grep --quiet 'ahead'
 GIT_PULL="$(git pull --dry-run 2>&1)"
 CLEAN_DIR="TRUE"
 

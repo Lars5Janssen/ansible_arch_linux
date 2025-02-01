@@ -13,7 +13,8 @@ fi
 
 cd $1
 
-BRANCH="$(git brach | awk '{ print $2 }')"
+git fetch
+BRANCH="$(git branch --show-current)"
 UNPUSHED_COMMITS="$(git log origin/$BRANCH..$BRANCH)"
 UNPULLED_COMMITS="$(git log $BRANCH..origin/$BRANCH)"
 
@@ -25,7 +26,7 @@ send-notification ()
 CLEAN_DIR="TRUE"
 
 UNCOMITTED_STRING=""
-if ! git status --porcelain | grep --quiet 'working tree clean' 
+if ! git status | grep --quiet 'working tree clean' 
 then
     UNCOMITTED_STRING="Uncommited changes\n"
     CLEAN_DIR="FALSE"

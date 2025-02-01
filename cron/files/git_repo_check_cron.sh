@@ -37,7 +37,8 @@ if [[ "$UNPUSHED_COMMITS" != "Everything up-to-date" ]]; then
 fi
 
 UNPULLED_STRING=""
-if git status -v | grep --quiet 'ahead'; then
+if git status -v | grep --quiet 'ahead'
+then
     UNPULLED_STRING="New commits to pull\n"
     CLEAN_DIR="FALSE"
 fi

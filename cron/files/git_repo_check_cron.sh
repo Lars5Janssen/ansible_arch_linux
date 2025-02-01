@@ -14,7 +14,7 @@ fi
 cd $1
 
 GIT_STATUS="$(git status --porcelain)"
-UNPUSHED_COMMITS="$(git push --dry-run 2>&1 | grep 'Everything up-to-date')"
+UNPUSHED_COMMITS="$(git log origin/main..HEAD)"
 # GIT_PULL="$(git pull --dry-run 2>&1)"
 
 send-notification ()
@@ -31,7 +31,7 @@ if [[ "$GIT_STATUS" != "" ]]; then
 fi
 
 UNPUSHED_STRING=""
-if [[ "$UNPUSHED_COMMITS" != "Everything up-to-date" ]]; then
+if [[ $UNPUSHED_COMMITS != "" ]]; then
     UNPUSHED_STRING="Unpushed commits\n"
     CLEAN_DIR="FALSE"
 fi

@@ -28,24 +28,26 @@ CLEAN_DIR="TRUE"
 UNCOMITTED_STRING=""
 if ! git status | grep --quiet 'working tree clean' 
 then
+    echo 1
     UNCOMITTED_STRING="Uncommited changes\n"
     CLEAN_DIR="FALSE"
 fi
 
 UNPUSHED_STRING=""
 if [[ $UNPUSHED_COMMITS != "" ]]; then
+    echo 2
     UNPUSHED_STRING="Unpushed commits\n"
     CLEAN_DIR="FALSE"
 fi
 
 UNPULLED_STRING=""
 if [[ $UNPULLED_COMMITS != "" ]]; then
+    echo 3
     UNPULLED_STRING="New commits to pull\n"
     CLEAN_DIR="FALSE"
 fi
 
 BODY=""
-echo 3
 if [[ "$CLEAN_DIR" == "FALSE" ]]; then
     echo 5
     PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"

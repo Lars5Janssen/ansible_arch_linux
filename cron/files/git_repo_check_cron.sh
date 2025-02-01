@@ -45,7 +45,9 @@ if [[ $UNPULLED_COMMITS != "" ]]; then
 fi
 
 BODY=""
+echo 3
 if [[ "$CLEAN_DIR" == "FALSE" ]]; then
+    echo 5
     PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
     BODY="$UNCOMITTED_STRING $UNPUSHED_STRING $UNPULLED_STRING"
     send-notification "$PRITTY_DIR is not up to date" "$BODY" --expire-time="$2"

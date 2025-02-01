@@ -13,9 +13,9 @@ fi
 
 cd $1
 
-GIT_STATUS="$(git status --porcelain)"
-UNPUSHED_COMMITS="$(git log origin/main..HEAD)"
-# GIT_PULL="$(git pull --dry-run 2>&1)"
+BRANCH="$(git brach | awk '{ print $2 }')"
+UNPUSHED_COMMITS="$(git log origin/$BRANCH..$BRANCH)"
+UNPULLED_COMMITS="$(git log $BRANCH..origin/$BRANCH)"
 
 send-notification ()
 {
@@ -25,7 +25,8 @@ send-notification ()
 CLEAN_DIR="TRUE"
 
 UNCOMITTED_STRING=""
-if [[ "$GIT_STATUS" != "" ]]; then
+if ! git status --porcelain | grep --quiet 'working tree clean' 
+then
     UNCOMITTED_STRING="Uncommited changes\n"
     CLEAN_DIR="FALSE"
 fi
@@ -37,8 +38,7 @@ if [[ $UNPUSHED_COMMITS != "" ]]; then
 fi
 
 UNPULLED_STRING=""
-if git status -v | grep --quiet 'ahead'
-then
+if [[ $UNPULLED_COMMITS != "" ]]; then
     UNPULLED_STRING="New commits to pull\n"
     CLEAN_DIR="FALSE"
 fi

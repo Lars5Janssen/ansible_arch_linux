@@ -6,7 +6,7 @@
     - gaming
     - virtualization
     - bluetooth
-# TEST
+
   tasks:
     - name: Check for Updates
       import_tasks: check_for_updates.yml

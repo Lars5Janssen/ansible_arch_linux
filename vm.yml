@@ -1,8 +1,16 @@
 - name: VM Test
   hosts: vm
-  # COMMIT
   roles:
     - common-setup 
     - powermanagment
     - gaming
     - bluetooth
+
+  tasks:
+    - name: Disable KeyD
+      become: true
+      systemd:
+        name: keyd
+        state: stopped
+        enabled: no
+      changed_when: false

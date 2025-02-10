@@ -1,13 +1,30 @@
-[self]
+[laptop]
 localhost ansible_connection=local
+
+[laptop:vars]
+hostname=archlaptop
+CPU=INTEL
+GPU=INTEL
+
+[pc]
+localhost ansible_connection=local
+
+[pc:vars]
+hostname=archPC
+CPU=AMD
+GPU=NVIDIA
 
 [vm]
 192.168.122.214     ansible_connection=ssh
 
+[vm:vars]
+hostname=archVM
+CPU=INTEL
+GPU=INTEL
+
 [all:vars]
 username=l
 homedir=/home/l
-hostname=arch
 githubssh=true
 rootusername=root
 multilib=true

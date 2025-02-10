@@ -14,7 +14,24 @@
       - hyprland
       - hypridle
       - hyprlock
+      - hyprsunset
     state: latest
+
+- name: Copy hyprsunset job
+  copy:
+    src: "{{ role_path }}/files/hyprsunset.sh"
+    dest: "{{ homedir }}/.local/cron/hyprsunset.sh"
+    mode: '0755'
+    owner: "{{ username }}"
+
+
+- name: hyprsunset cronjob
+  cron:
+    name: hyprsunset
+    user: "{{ username }}"
+    hour: "16-6"
+    minute: "*/20"
+    job: "{{ homedir }}/.local/cron/hyprsunset.sh 1000"
 
 - name: screenshot
   become: true
@@ -50,12 +67,14 @@
   pacman:
     name:
       - swww
+# TODO Cron job using swww query | grep 'color' swww img ...
 
 # TODO Abstrace background image (dir under home?)
 - name: Copy Irithyll Background
   copy:
     src: "{{ homedir }}/Pictures/irithyll.jpg"
     dest: "{{ homedir }}/Pictures/irithyll.jpg"
+  register: copy_bg
 
 - name: tofi (Programm runner)
   shell: paru -S tofi --needed --noconfirm

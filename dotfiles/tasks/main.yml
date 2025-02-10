@@ -23,6 +23,20 @@
     - .bashrc
     - .config/hypr
 
+- name: Ensure Directories
+  file:
+    path: "{{ homedir }}/{{ item }}"
+    state: directory
+  loop:
+    - .local
+    - ./local/share
+    - ./local/share/hyprland
+    - ./local/share/nvim
+    - ./local/share/zinit
+    - ./local/share/zoxide
+    - .config/
+    - .config/go/telemetry
+
 - name: Stow Dotfiles
   when: stow is changed
   command:

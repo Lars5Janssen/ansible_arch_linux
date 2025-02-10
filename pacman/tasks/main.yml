@@ -1,31 +1,16 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for pacman
-- name: Misc Pacman Config Options
+- name: Copy Pacman Conf
   become: true
-  lineinfile:
-    path: /etc/pacman.conf
-    state: "{{ item.state }}"
-    line: "{{ item.option }}"
-    insertafter: ^\[options\]$
-  loop:
-    - { option: Color, state: present}
-    - { option: ILoveCandy, state: present}
-    - { option: ParallelDownloads = 8, state: present}
-
-- name: 32 Bit Support 
-  become: true
-  blockinfile:
-    path: /etc/pacman.conf
-    state: present
-    block: |
-      [multilib]
-      Include = /etc/pacman.d/mirrorlist
-    insertafter: ^#\[multilib\]$
-  register: multilib
+  copy:
+    src: "{{ role_path }}/files/pacman.conf"
+    dest: "/etc/pacman.conf"
+    owner: "{{ rootusername }}"
+  register: conf
 
 - name: Sync databse
-  when: multilib is changed
+  when: conf is changed
   become: true
   pacman:
     update_cache: yes
@@ -59,3 +44,9 @@
     user: "{{ rootusername }}"
     job: nice reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist
     # TODO move to anacron and add logs
+
+- name: Run reflector
+  when: reflector is changed
+  become: true
+  shell: reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist
+  failed_when: false

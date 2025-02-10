@@ -10,23 +10,16 @@
       - os-prober
 
 - name: Check for Catppuccin Grub Theme
-  register: found_catppuccin
   become: true
+  check_mode: true
   file:
-    path: '/boot/grub/themes/catppuccin-mocha-grub-theme/{{ item.file }}'
+    state: directory
+    path: '/boot/grub/themes/catppuccin-mocha-grub-theme/'
   failed_when: false
-  loop:
-    - { file: background.png }
-    - { file: font.pf2 }
-    - { file: icons }
-    - { file: logo.png }
-    - { file: select_c.png }
-    - { file: select_e.png }
-    - { file: select_w.png }
-    - { file: theme.txt }
+  register: found_catppuccin
 
 - name: Download Catppuccin Grub Theme
-  when: found_catppuccin is failed
+  when: found_catppuccin is changed
   become: true
   git:
     repo: https://github.com/catppuccin/grub.git
@@ -36,11 +29,12 @@
   register: catppuccin_clone
 
 - name: Install Catppuccin Grub Theme
-  when: catppuccin_clone is succeeded and found_catppuccin is failed
+  when: catppuccin_clone is succeeded and found_catppuccin is changed
   become: true
   copy:
-    src: /tmp/grub-catppuccin/catppuccin-mocha-grub-theme/src/catppuccin-mocha-grub-theme
-    dest: /boot/grub/themes/catppuccin-mocha-grub-theme
+    remote_src: true
+    src: /tmp/grub-catppuccin/src/catppuccin-mocha-grub-theme/
+    dest: /boot/grub/themes/catppuccin-mocha-grub-theme/
   register: catppuccin_fresh_install
 
 - name: Catppuccin CleanUP
@@ -50,12 +44,21 @@
     state: absent
     path: /tmp/grub-catppuccin
 
-- name: Grub Theme
-  when: found_catppuccin is succeeded or catppuccin_fresh_install is succeeded
+- name: Grub Console
   become: true
   lineinfile: 
     path: /etc/default/grub
     state: present
+    regexp: '^GRUB_TERMINAL_INPUT=console$'
+    line: '# GRUB_TERMINAL_INPUT=console'
+  register: changed_ter_input
+
+- name: Grub Theme
+  become: true
+  lineinfile: 
+    path: /etc/default/grub
+    state: present
+    regexp: '^GRUB_THEME='
     line: GRUB_THEME="/boot/grub/themes/catppuccin-mocha-grub-theme/theme.txt"
   register: installed_theme
 
@@ -70,7 +73,7 @@
 
 - name: Update Grub Config
   become: true
-  when: os_prober is changed or installed_theme is changed
+  when: os_prober is changed or installed_theme is changed or changed_ter_input is changed or catppuccin_fresh_install is changed
   command:
     argv:
       - grub-mkconfig

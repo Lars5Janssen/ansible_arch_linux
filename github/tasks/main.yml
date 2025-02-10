@@ -19,6 +19,8 @@
       - ssh-key
       - add
       - "{{ homedir }}/Projects/ansible/ssh-keys/{{ hostname }}-{{ inventory_hostname }}-id_ed25519.pub/{{ inventory_hostname }}{{ homedir }}/.ssh/id_ed25519.pub" # INVISIBLE / between inv hostname and homedir (homedir starts with /)
+      - --title 
+      - "{{ hostname }}"
   changed_when: gh.stderr.find('✓ Public key already exists on your account') == -1
 
 - name: debug

@@ -29,7 +29,7 @@
   cron:
     name: hyprsunset
     user: "{{ username }}"
-    hour: "16-6"
+    hour: "16-23"
     minute: "*/20"
     job: "{{ homedir }}/.local/cron/hyprsunset.sh 1000"
 

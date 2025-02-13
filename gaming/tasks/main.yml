@@ -35,3 +35,4 @@
   flatpak:
     name:
       - net.davidotek.pupgui2
+      - org.freedesktop.Piper

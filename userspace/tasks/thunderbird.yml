@@ -1,0 +1,10 @@
+- name: Clone Git
+  git:
+    repo: https://github.com/catppuccin/thunderbird.git
+    dest: "{{ homedir }}/Themes/thunderbird/"
+    update: no
+
+- name: Proton Mail Bridge
+  become_user: "{{ username }}"
+  flatpak:
+    name: ch.protonmail.protonmail-bridge

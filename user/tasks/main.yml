@@ -25,6 +25,7 @@
     owner: "{{ username }}"
   loop:
     - Desktop
+    - Themes
     - Documents
     - Downloads
     - KPXCDB

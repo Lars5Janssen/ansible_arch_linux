@@ -75,3 +75,6 @@
 
 - name: KeyD
   import_tasks: keyd.yml
+
+- name: Thunderbird
+  import_tasks: thunderbird.yml

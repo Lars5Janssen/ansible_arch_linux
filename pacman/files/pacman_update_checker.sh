@@ -6,7 +6,7 @@ send-notification ()
 
 if [[ $1 == "delay" ]]; then
     min_wait=0
-    max_wait=59
+    max_wait=20
     sleep_dur=$((min_wait+RANDOM % (max_wait-min_wait)))
     sleep "$sleep_dur"m
 fi

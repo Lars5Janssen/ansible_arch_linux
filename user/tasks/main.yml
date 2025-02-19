@@ -34,6 +34,9 @@
     - Nextcloud
     - Pictures
     - Projects
+    - Projects/private
+    - Projects/desy
+    - Projects/haw
     - Videos
     - .ssh
     - .config

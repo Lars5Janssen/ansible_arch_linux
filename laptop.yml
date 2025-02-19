@@ -1,7 +1,7 @@
 ---
 # TODO both pcs in one file
 - name: Setup Laptop
-  hosts: self
+  hosts: laptop
   roles:
     - common-setup
     - usb-c-thunderbolt

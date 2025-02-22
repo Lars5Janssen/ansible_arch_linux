@@ -35,6 +35,7 @@
     - ./local/share/zinit
     - ./local/share/zoxide
     - .config/
+    - .config/kdeconnect
     - .config/go/telemetry
 
 - name: Stow Dotfiles

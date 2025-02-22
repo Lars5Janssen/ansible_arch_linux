@@ -2,6 +2,7 @@
 ---
 # tasks file for github
 - name: Ensure github cli on local
+  become: true
   when: githubssh == "true"
   delegate_to: 127.0.0.1
   pacman:

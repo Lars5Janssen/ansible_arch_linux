@@ -25,6 +25,9 @@ GPU=INTEL
 [self]
 localhost ansible_connection=local
 
+[self:vars]
+githubssh=false
+
 [all:vars]
 username=l
 homedir=/home/l

@@ -1,0 +1,18 @@
+---
+# TODO both pcs in one file
+- name: debug PC
+  hosts: pc
+
+  tasks:
+    - name: debug
+      debug:
+        var: ansible_facts
+
+    # - name: Check for Card vendor
+    #   become: true
+    #   shell: lshw -class display | grep vendor
+    #   register: vendor
+    #
+    # - name: dbg
+    #   debug:
+    #     var: vendor

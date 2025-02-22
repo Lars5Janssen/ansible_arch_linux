@@ -7,7 +7,7 @@ CPU=INTEL
 GPU=INTEL
 
 [pc]
-localhost ansible_connection=local
+192.168.1.100 ansible_port=7022
 
 [pc:vars]
 hostname=archPC
@@ -28,3 +28,4 @@ homedir=/home/l
 githubssh=true
 rootusername=root
 multilib=true
+custom_ssh_port=7022

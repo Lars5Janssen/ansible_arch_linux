@@ -14,6 +14,7 @@
   pacman:
     name:
       - tldr
+      - tmux
       - nnn
       - sl
       - kitty
@@ -39,6 +40,17 @@
       - zsh
       - fzf
       - openvpn
+      - kwalletmanager
+
+- name: SimLink Vi -> NVIM
+  become: true
+  file:
+    src: /bin/nvim
+    dest: "{{ item }}"
+    state: link
+  loop:
+    - /bin/vi
+    - /bin/vim
 
 - name: Install AUR Apps
   shell: paru --noconfirm --needed -S oh-my-posh-bin mullvad-vpn-bin

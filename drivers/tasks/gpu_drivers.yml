@@ -42,7 +42,7 @@
 
 ###      Remove     ###
 - name: Remove Nivdia 32 Bit drivers
-  when: multilib_support is not succeeded or not false # TODO OR NOT NVIDIA is succeeded
+  when: not multilib_support is succeeded or not false # TODO OR NOT NVIDIA is succeeded
   become: true
   pacman:
     state: absent

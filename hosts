@@ -22,6 +22,9 @@ hostname=archVM
 CPU=INTEL
 GPU=INTEL
 
+[self]
+localhost ansible_connection=local
+
 [all:vars]
 username=l
 homedir=/home/l

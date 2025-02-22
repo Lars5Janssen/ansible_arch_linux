@@ -1,0 +1,5 @@
+- name: Remove Proton Bridge Flatpak
+  become_user: "{{ username }}"
+  flatpak:
+    name: ch.protonmail.protonmail-bridge
+    state: absent

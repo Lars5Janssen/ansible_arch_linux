@@ -6,6 +6,7 @@
   pacman: # These package names are arch specific no guarantee for other distros
     name:
       - neovim
+      - ripgrep
       - lua
       - luarocks
 

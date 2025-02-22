@@ -1,6 +1,8 @@
 - name: Testing
-  hosts: laptop
+  hosts: self
   roles:
-    - hyprland
+    - common-setup
 
   tasks:
+    - name: historical
+      import_tasks: historical.yml

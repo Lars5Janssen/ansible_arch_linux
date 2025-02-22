@@ -10,6 +10,9 @@
     - bluetooth
 
   tasks:
+    - name: Historical Fixes
+      import_tasks: historical.yml
+
     # For hotfixes
     # - name: Check for Updates
     #   import_tasks: check_for_updates.yml

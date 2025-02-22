@@ -1,14 +1,20 @@
 ---
-# TODO
-- name: Check for Nvidia Card
-  debug:
-    msg: TODO
-  register: nvidia
+# TODO IS 32 Bit support used right multilib_support is succeeded and ... is changed???
+- name: install lshw
+  become: true
+  pacman:
+    name: lshw
+
+- name: Check for Card vendor
+  become: true
+  shell: lshw -class display | grep vendor
+  changed_when: false
+  register: vendor
 
 - name: Check for not both
   when: 
-    - ansible_facts['processor'][1].find("Intel") != -1
-    - false #nvidia is succeeded
+    - vendor.stdout.find("NVIDIA") != -1
+    - vendor.stdout.find("Intel") != -1
   debug:
     msg: Found both Nvidia GPU and Intel CPU --> DANGER
   failed_when: true
@@ -29,20 +35,22 @@
 
 ###     Install     ###
 - name: Install Nivdia drivers and etc
-  when: false # TODO NVIDIA is succeeded
+  when: vendor.stdout.find("NVIDIA") != -1
   become: true
   pacman:
-    name: nivida
+    name: nvidia
 
 - name: Install Nivdia 32 Bit drivers
-  when: multilib_support is succeeded and false # TODO NVIDIA is succeeded
+  when: 
+    - multilib_support is succeeded 
+    - vendor.stdout.find("NVIDIA") != -1
   become: true
   pacman:
     name: lib32-nvidia-utils
 
 ###      Remove     ###
 - name: Remove Nivdia 32 Bit drivers
-  when: not multilib_support is succeeded or not false # TODO OR NOT NVIDIA is succeeded
+  when: not multilib_support is succeeded or vendor.stdout.find("NVIDIA") == -1 # TODO OR NOT NVIDIA is succeeded
   become: true
   pacman:
     state: absent
@@ -50,11 +58,18 @@
 
 
 - name: Remove Nivdia drivers and etc
-  when: true # TODO NOT NVIDIA is succeeded
+  when: not vendor.stdout.find("NVIDIA") != -1
   become: true
   pacman:
     state: absent
     name: nivida
+
+- name: Remove Nivdia 32 Bit drivers
+  when: multilib_support is not succeeded or vendor.stdout.find("NVIDIA") == -1 # TODO OR NOT NVIDIA is succeeded
+  become: true
+  pacman:
+    state: absent
+    name: lib32-nvidia-utils
 
 #######################
 ###       INTEL     ###
@@ -62,14 +77,14 @@
 
 ###     Install     ###
 - name: Install Intel Driver
-  when: ansible_facts['processor'][1].find("Intel") != -1
+  when: vendor.stdout.find("Intel") != -1
   become: true
   pacman:
     name: vulkan-intel
 
 - name: Install Intel 32 Bit Driver
   when: 
-    - ansible_facts['processor'][1].find("Intel") != -1
+    - vendor.stdout.find("Intel") != -1
     - multilib_support is succeeded
   become: true
   pacman:
@@ -77,14 +92,14 @@
 
 ###      Remove     ###
 - name: Remove Intel Driver
-  when: not ansible_facts['processor'][1].find("Intel") != -1
+  when: vendor.stdout.find("Intel") == -1
   become: true
   pacman:
     state: absent
     name: vulkan-intel
 
 - name: Remove Intel 32 Bit Driver
-  when: not ansible_facts['processor'][1].find("Intel") != -1 or not multilib_support is succeeded
+  when: vendor.stdout.find("Intel") == -1 or multilib_support is not succeeded
   become: true
   pacman:
     state: absent

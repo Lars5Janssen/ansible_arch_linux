@@ -1,6 +1,6 @@
 ---
 - name: Setup PC
-  hosts: self
+  hosts: pc
   roles:
     - common-setup
     - gaming

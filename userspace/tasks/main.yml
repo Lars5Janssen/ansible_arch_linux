@@ -53,7 +53,7 @@
     - /bin/vim
 
 - name: Install AUR Apps
-  shell: paru --noconfirm --needed -S oh-my-posh-bin mullvad-vpn-bin
+  shell: paru --noconfirm --needed -S oh-my-posh-bin mullvad-vpn-bin delta
   register: paru_output
   changed_when: paru_output.stderr.find('up to date -- skipping') == -1
 

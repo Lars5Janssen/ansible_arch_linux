@@ -40,6 +40,7 @@
     - Videos
     - .ssh
     - .config
+    - .local
 
 # - name: Add ssh-key
 #   lineinfile:

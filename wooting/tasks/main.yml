@@ -1,0 +1,54 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for wooting
+- name: Check for Wootility
+  command:
+    cmd: which wootility
+  ignore_errors: true
+  changed_when: false
+  failed_when: false
+  register: wootility_installed
+
+- name: Ensure no wootility
+  when: wootility_installed.rc != 0
+  file:
+    state: absent  
+    path: "{{ item }}"
+  loop:
+    - /tmp/wootility_downloaded
+    - /usr/local/bin/wootility
+
+- name: Download Wootility
+  when: wootility_installed.rc != 0
+  shell: curl -L 'https://api.wooting.io/public/wootility/download?os=linux' -o /tmp/wootility_downloaded
+  register: wootility_download
+
+- name: Move Wootility to bin
+  become: true
+  when: 
+    - wootility_installed.rc != 0
+    - wootility_download.rc == 0
+  copy:
+    remote_src: true
+    src: /tmp/wootility_downloaded
+    dest: /usr/local/bin/wootility
+    owner: "{{ username }}"
+    mode: '0755'
+
+- name: clean up
+  file: 
+    state: absent
+    path: /tmp/wootility_downloaded
+
+- name: Copy Udev rules
+  become: true
+  copy: 
+    src: "{{ role_path }}/files/70-wooting.rules"
+    dest: /etc/udev/rules.d/70-wooting.rules
+    owner: "{{ rootusername }}"
+  register: udev
+
+- name: reload udev rules
+  when: udev is changed
+  become: true
+  shell: udevadm control --reload-rules && udevadm trigger

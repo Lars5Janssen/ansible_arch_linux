@@ -8,14 +8,8 @@
   failed_when: true
 
 #######################
-###      INTEL      ###
+###      REMOVE     ###
 #######################
-
-- name: Install Intell Microcode
-  when: ansible_facts['processor'][1].find("Intel") != -1
-  become: true
-  pacman:
-    name: intel-ucode
 
 - name: Remove Intell Microcode
   when: ansible_facts['processor'][1].find("Intel") == -1
@@ -24,19 +18,25 @@
     state: absent
     name: intel-ucode
 
-#######################
-###       AMD       ###
-#######################
-
-- name: Install AMD microcode
-  when: ansible_facts['processor'][1].find("AuthenticAMD") != -1
-  become: true
-  pacman:
-    name: amd-ucode
-
 - name: Remove AMD microcode
   when: ansible_facts['processor'][1].find("AuthenticAMD") == -1
   become: true
   pacman:
     name: amd-ucode
     state: absent
+
+#######################
+###     INSTALL     ###
+#######################
+
+- name: Install Intell Microcode
+  when: ansible_facts['processor'][1].find("Intel") != -1
+  become: true
+  pacman:
+    name: intel-ucode
+
+- name: Install AMD microcode
+  when: ansible_facts['processor'][1].find("AuthenticAMD") != -1
+  become: true
+  pacman:
+    name: amd-ucode

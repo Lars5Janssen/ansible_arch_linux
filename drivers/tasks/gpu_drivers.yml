@@ -30,25 +30,10 @@
   register: multilib_support
 
 #######################
-###      NVIDIA     ###
+###      REMOVE     ###
 #######################
 
-###     Install     ###
-- name: Install Nivdia drivers and etc
-  when: vendor.stdout.find("NVIDIA") != -1
-  become: true
-  pacman:
-    name: nvidia
-
-- name: Install Nivdia 32 Bit drivers
-  when: 
-    - multilib_support is succeeded 
-    - vendor.stdout.find("NVIDIA") != -1
-  become: true
-  pacman:
-    name: lib32-nvidia-utils
-
-###      Remove     ###
+###      NVIDIA     ###
 - name: Remove Nivdia 32 Bit drivers
   when: not multilib_support is succeeded or vendor.stdout.find("NVIDIA") == -1 # TODO OR NOT NVIDIA is succeeded
   become: true
@@ -71,26 +56,7 @@
     state: absent
     name: lib32-nvidia-utils
 
-#######################
-###       INTEL     ###
-#######################
-
-###     Install     ###
-- name: Install Intel Driver
-  when: vendor.stdout.find("Intel") != -1
-  become: true
-  pacman:
-    name: vulkan-intel
-
-- name: Install Intel 32 Bit Driver
-  when: 
-    - vendor.stdout.find("Intel") != -1
-    - multilib_support is succeeded
-  become: true
-  pacman:
-    name: lib32-vulkan-intel
-
-###      Remove     ###
+###      INTEL      ###
 - name: Remove Intel Driver
   when: vendor.stdout.find("Intel") == -1
   become: true
@@ -103,4 +69,38 @@
   become: true
   pacman:
     state: absent
+    name: lib32-vulkan-intel
+
+#######################
+###     INSTALL     ###
+#######################
+
+###      NVIDIA     ###
+- name: Install Nivdia drivers and etc
+  when: vendor.stdout.find("NVIDIA") != -1
+  become: true
+  pacman:
+    name: nvidia
+
+- name: Install Nivdia 32 Bit drivers
+  when: 
+    - multilib_support is succeeded 
+    - vendor.stdout.find("NVIDIA") != -1
+  become: true
+  pacman:
+    name: lib32-nvidia-utils
+
+###      INTEL      ###
+- name: Install Intel Driver
+  when: vendor.stdout.find("Intel") != -1
+  become: true
+  pacman:
+    name: vulkan-intel
+
+- name: Install Intel 32 Bit Driver
+  when: 
+    - vendor.stdout.find("Intel") != -1
+    - multilib_support is succeeded
+  become: true
+  pacman:
     name: lib32-vulkan-intel

@@ -47,6 +47,7 @@ dependencies:
   - role: hyprland 
   - role: flatpak 
   - role: login-manager 
+  - role: usb-c-thunderbolt
   - role: userspace 
   - role: bootloader 
   - role: wooting

@@ -10,6 +10,8 @@
       - greetd-agreety
       - zsh
 
+# TODO INSTA LOGIN ON PC
+
 # Find a way to check for this config
 
 - name: Check greetD Config

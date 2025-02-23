@@ -1,8 +1,5 @@
 - name: Testing
   hosts: self
   roles:
-    - common-setup
-
-  tasks:
-    - name: historical
-      import_tasks: historical.yml
+    # - common-setup
+    - wooting

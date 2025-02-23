@@ -64,16 +64,10 @@
   community.general.ufw:
     rule: allow
     port: "1714:1764"
-
-# - name: KDE Connect Ports
-#   become: true
-#   community.general.ufw:
-#     rule: allow
-#     port: "1714:1764"
-#     proto: "{{ item }}"
-#   loop:
-#     - udp
-#     - tcp
+    proto: "{{ item }}"
+  loop:
+    - udp
+    - tcp
 
 - name: Enable ufw
   become: true

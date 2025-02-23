@@ -3,14 +3,3 @@
   flatpak:
     name: ch.protonmail.protonmail-bridge
     state: absent
-
-- name: KDE Connect Ports
-  become: true
-  community.general.ufw:
-    rule: allow
-    port: "1714:1764"
-    proto: "{{ item }}"
-    delete: true
-  loop:
-    - udp
-    - tcp

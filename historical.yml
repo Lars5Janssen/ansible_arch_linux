@@ -1,5 +1,7 @@
 - name: Remove Proton Bridge Flatpak
   become_user: "{{ username }}"
   flatpak:
-    name: ch.protonmail.protonmail-bridge
+    name: 
+      - ch.protonmail.protonmail-bridge
+      - org.freedesktop.Piper
     state: absent

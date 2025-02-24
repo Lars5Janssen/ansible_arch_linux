@@ -28,11 +28,12 @@
 - name: Misc Gaming Programms (Pacman)
   become: true
   pacman:
-    name: gamescope
+    name: 
+      - gamescope
+      - piper
     
 - name: Misc Gaming Programms (Flatpak)
   become: true
   flatpak:
     name:
       - net.davidotek.pupgui2
-      - org.freedesktop.Piper

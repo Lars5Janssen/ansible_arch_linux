@@ -13,34 +13,34 @@
   become: true
   pacman:
     name:
-      - tldr
-      - tmux
-      - nnn
-      - sl
-      - kitty
-      - vlc # Flatpak ?
-      - lolcat
-      - nextcloud-client
-      - man-db 
-      - man-pages
-      - keepassxc
-      - firefox
-      - kdeconnect
-      - cheese
-      # These Programms might be better in a diffrent playbook 
-      # or refactored out of general userspace
       - btop
+      - cheese
       - docker
       - docker-compose
-      - playerctl
-      - pavucontrol
-      - rustup
+      - firefox
+      - fzf
+      - git-delta
       - go
+      - kdeconnect
+      - keepassxc
+      - kitty
+      - kwalletmanager
+      - lolcat
+      - man-db 
+      - man-pages
+      - nextcloud-client
+      - nnn
+      - openvpn
+      - pavucontrol
+      - playerctl
+      - rustup
+      - signal
+      - sl
+      - tldr
+      - tmux
+      - vlc # Flatpak ?
       - zoxide
       - zsh
-      - fzf
-      - openvpn
-      - kwalletmanager
 
 - name: SimLink Vi -> NVIM
   become: true
@@ -53,7 +53,7 @@
     - /bin/vim
 
 - name: Install AUR Apps
-  shell: paru --noconfirm --needed -S oh-my-posh-bin mullvad-vpn-bin delta
+  shell: paru --noconfirm --needed -S oh-my-posh-bin mullvad-vpn-bin
   register: paru_output
   changed_when: paru_output.stderr.find('up to date -- skipping') == -1
 

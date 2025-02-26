@@ -17,22 +17,6 @@
       - hyprsunset
     state: latest
 
-- name: Copy hyprsunset job
-  copy:
-    src: "{{ role_path }}/files/hyprsunset.sh"
-    dest: "{{ homedir }}/.local/cron/hyprsunset.sh"
-    mode: '0755'
-    owner: "{{ username }}"
-
-
-- name: hyprsunset cronjob
-  cron:
-    name: hyprsunset
-    user: "{{ username }}"
-    hour: "16-23"
-    minute: "*/20"
-    job: "{{ homedir }}/.local/cron/hyprsunset.sh 1000"
-
 - name: screenshot
   become: true
   pacman:

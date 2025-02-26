@@ -5,3 +5,8 @@
       - ch.protonmail.protonmail-bridge
       - org.freedesktop.Piper
     state: absent
+
+- name: Rmv Hyprsunset cron
+  file:
+    path: "{{ homedir }}/.local/cron/hyprsunset.sh"
+    state: absent

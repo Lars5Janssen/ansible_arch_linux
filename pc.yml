@@ -3,6 +3,7 @@
   hosts: pc
   roles:
     - common-setup
+    - a1111
     - gaming
     - virtualization
     - bluetooth

@@ -1,14 +1,15 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for network
-- name: Install Network Managers
+- name: Install Network Packages
   become: true
   pacman:
     name:
+      - dhcpcd
+      - network-manager-applet
       - networkmanager
       - networkmanager-openvpn
-      - dhcpcd
-      # - polkit
+      - nm-connection-editor
 
 - name: Unwanted NetworkManagers
   become: true
@@ -21,21 +22,27 @@
       - connman
       - dhcpclient
 
-- name: dhcpcd
-  register: dhcpcd_nm_conf
-  become: true
-  blockinfile:
-    create: true
-    path: /etc/NetworkManager/conf.d/dhcpcd.conf
-    block: |
-      [main]
-      dhcp=dhcpcd
-
-# - name: remove dhcpcd
+# - name: dhcpcd
 #   become: true
-#   file:
-#     state: absent
+#   blockinfile:
+#     create: true
 #     path: /etc/NetworkManager/conf.d/dhcpcd.conf
+#     block: |
+#       [main]
+#       dhcp=dhcpcd
+
+- name: Dhcpcd not active
+  become: true
+  systemd:
+    name: dhcpcd.service
+    state: stopped
+    enabled: no
+
+- name: remove dhcpcd
+  become: true
+  file:
+    state: absent
+    path: /etc/NetworkManager/conf.d/dhcpcd.conf
 
 - name: Enable NetworkManager
   become: true
@@ -45,7 +52,7 @@
     enabled: yes
 
 # - name: Reload NetworkManager
-#   when: dhcpcd_nm_conf is changed
+#   become: true
 #   systemd:
 #     name: NetworkManager
 #     state: reloaded

@@ -34,7 +34,7 @@
       - pavucontrol
       - playerctl
       - rustup
-      - signal
+      - signal-desktop
       - sl
       - tldr
       - tmux

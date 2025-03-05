@@ -21,21 +21,21 @@
       - connman
       - dhcpclient
 
-- name: dhcpcd
-  register: dhcpcd_nm_conf
-  become: true
-  blockinfile:
-    create: true
-    path: /etc/NetworkManager/conf.d/dhcpcd.conf
-    block: |
-      [main]
-      dhcp=dhcpcd
-
-# - name: remove dhcpcd
+# - name: dhcpcd
+#   register: dhcpcd_nm_conf
 #   become: true
-#   file:
-#     state: absent
+#   blockinfile:
+#     create: true
 #     path: /etc/NetworkManager/conf.d/dhcpcd.conf
+#     block: |
+#       [main]
+#       dhcp=dhcpcd
+
+- name: remove dhcpcd
+  become: true
+  file:
+    state: absent
+    path: /etc/NetworkManager/conf.d/dhcpcd.conf
 
 - name: Enable NetworkManager
   become: true
@@ -44,11 +44,11 @@
     state: started
     enabled: yes
 
-# - name: Reload NetworkManager
-#   when: dhcpcd_nm_conf is changed
-#   systemd:
-#     name: NetworkManager
-#     state: reloaded
+- name: Reload NetworkManager
+  # when: dhcpcd_nm_conf is changed
+  systemd:
+    name: NetworkManager
+    state: reloaded
 
 # TODO
 # - name: Eduroam

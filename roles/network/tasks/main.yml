@@ -8,8 +8,16 @@
       - dhcpcd
       - network-manager-applet
       - networkmanager
-      - networkmanager-openvpn
       - nm-connection-editor
+      ### START VPN
+      - networkmanager-openvpn
+      - networkmanager-openconnect
+      - webkit2gtk-4.1 
+      - libnma-gtk4 
+      - libnma 
+      - gcr 
+      ## END VPN
+
 
 - name: Unwanted NetworkManagers
   become: true
@@ -31,12 +39,6 @@
     block: |
       [main]
       dhcp=dhcpcd
-
-# - name: remove dhcpcd
-#   become: true
-#   file:
-#     state: absent
-#     path: /etc/NetworkManager/conf.d/dhcpcd.conf
 
 - name: Dhcpcd not active
   become: true

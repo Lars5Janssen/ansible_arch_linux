@@ -10,3 +10,8 @@
   file:
     path: "{{ homedir }}/.local/cron/hyprsunset.sh"
     state: absent
+
+- name: Rmv mako
+  pacman:
+    state: absent
+    name: mako

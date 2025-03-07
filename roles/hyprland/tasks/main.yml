@@ -35,7 +35,8 @@
   pacman:
     name: 
       # - polkit # TODO What is this
-      - mako
+      # - mako
+      - fnott
 
 - name: xdg-desktop
   become: true

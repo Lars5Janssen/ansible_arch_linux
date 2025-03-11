@@ -3,7 +3,6 @@
 # Runs shows a login webpage on walled garden networks.
 
 # man 8 NetworkManager-dispatcher
-
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 if [ -x "/usr/bin/logger" ]; then
@@ -12,29 +11,7 @@ else
   logger=":"
 fi
 
-$logger "Running captive-portal script"
-
-open_captive() {
-  captive_url=http://$(ip --oneline route get 1.1.1.1 | awk '{print $3}')
-  sudo -u "$1" DISPLAY=":0" \
-    DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/"$(id -u "$1")"/bus \
-    xdg-open "${captive_url}"
-}
-
-case "$2" in
-  connectivity-change)
-    $logger -p user.debug \
-      "dispatcher script triggered on connectivity change: $CONNECTIVITY_STATE"
-
-    if [ "$CONNECTIVITY_STATE" = "PORTAL" ]; then
-      user=$(who | head -n1 | cut -d' ' -f 1)
-
-      $logger "Running browser as '$user' to login in captive portal"
-
-      open_captive "$user" || $logger -p user.err "Failed for user: '$user'"
-    fi
-    ;;
-  *) 
-    $logger "No Captive Portal detected"
-    exit 0 ;;
-esac
+$logger "first '$2'"
+$logger "start Fork"
+/etc/NetworkManager/middlelayer.sh $2 &
+$logger "end Fork"

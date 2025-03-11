@@ -67,6 +67,22 @@
     owner: "{{ rootusername }}"
     mode: '0700'
 
+- name: Captive Portal Detection Nr.2
+  become: true
+  copy:
+    src: "{{ role_path }}/files/captive-portal.sh"
+    dest: "/etc/NetworkManager/captive-portal.sh"
+    owner: "{{ rootusername }}"
+    mode: '0700'
+
+- name: Captive Portal Detection Nr.3
+  become: true
+  copy:
+    src: "{{ role_path }}/files/middlelayer.sh"
+    dest: "/etc/NetworkManager/middlelayer.sh"
+    owner: "{{ rootusername }}"
+    mode: '0700'
+
 # - name: Reload NetworkManager
 #   become: true
 #   systemd:

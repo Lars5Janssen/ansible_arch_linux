@@ -20,7 +20,7 @@ UNPULLED_COMMITS="$(git log $BRANCH..origin/$BRANCH)"
 
 send-notification ()
 {
-    XDG_RUNTIME_DIR=/run/user/$(id -u) notify-send "$1" "$2" $3 $4 
+    ~/scripts/send-user-notification.sh "$1" "$2" $3 $4 
 }
 # TODO Refactor into bash script and use this script for Notification
 

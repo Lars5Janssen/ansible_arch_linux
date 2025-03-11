@@ -12,6 +12,7 @@
     state: absent
 
 - name: Rmv mako
+  become: true
   pacman:
     state: absent
     name: mako

@@ -48,7 +48,7 @@ fi
 BODY=""
 if [[ "$CLEAN_DIR" == "FALSE" ]]; then
     PRITTY_DIR="$(pwd | sed 's:/: :g' | awk '{ print $NF }')"
-    BODY="$UNCOMITTED_STRING $UNPUSHED_STRING $UNPULLED_STRING"
+    BODY="$UNCOMITTED_STRING$UNPUSHED_STRING$UNPULLED_STRING"
     send-notification "$PRITTY_DIR is not up to date" "$BODY" --expire-time="$2"
 
     # LOGGING Only when Notification was sent
@@ -63,5 +63,4 @@ if [[ "$CLEAN_DIR" == "FALSE" ]]; then
     echo "BODY: $BODY" >> "$LOGFILE"
     echo "PATH (\$1): $1" >> "$LOGFILE"
     echo "Duration (\$2): $2" >> "$LOGFILE"
-
 fi

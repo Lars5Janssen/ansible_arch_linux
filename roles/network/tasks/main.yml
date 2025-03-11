@@ -55,11 +55,23 @@
     state: started
     enabled: yes
 
-- name: Reload NetworkManager
+    # TODO
+# - name: VPNs
+#   import_tasks: vpn_connections.yml
+
+- name: Captive Portal Detection
   become: true
-  systemd:
-    name: NetworkManager
-    state: reloaded
+  copy:
+    src: "{{ role_path }}/files/90-open_captive_portal.sh"
+    dest: "/etc/NetworkManager/dispatcher.d/90-open_captive_portal"
+    owner: "{{ rootusername }}"
+    mode: '0700'
+
+# - name: Reload NetworkManager
+#   become: true
+#   systemd:
+#     name: NetworkManager
+#     state: reloaded
 
 # TODO
 # - name: Eduroam

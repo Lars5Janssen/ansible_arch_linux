@@ -1,5 +1,5 @@
 - name: Remove Proton Bridge Flatpak
-  become_user: "{{ username }}"
+  become: true
   flatpak:
     name: 
       - ch.protonmail.protonmail-bridge
@@ -12,6 +12,7 @@
     state: absent
 
 - name: Rmv mako
+  become: true
   pacman:
     state: absent
     name: mako

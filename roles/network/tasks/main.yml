@@ -55,10 +55,10 @@
     state: started
     enabled: yes
 
-- name: Reload NetworkManager
-  systemd:
-    name: NetworkManager
-    state: reloaded
+# - name: Reload NetworkManager
+#   systemd:
+#     name: NetworkManager
+#     state: reloaded
 
 # TODO
 # - name: Eduroam

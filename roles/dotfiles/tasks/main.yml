@@ -54,5 +54,12 @@
     user: "{{ username }}"
     job: "nice {{ homedir }}/.local/cron/git_repo_check_cron.sh {{ homedir }}/dotfiles/ 10000"
 
+
+- name: rust default
+  shell: rustup default stable
+
+- name: scriptisto
+  shell: paru -S scriptisto 
+
 - name: Btop
   import_tasks: btop.yml

@@ -9,8 +9,19 @@
       - git
       - python
 
-- name: dep
+    # TODO WHEN
+- name: paru dep
   shell: paru -S python311 --needed --noconfirm
+
+  # TODO 
+  # VENV --> pyhton3.11 ensurepip --upgrade --> pyhthon3.11 -m pip install .,..
+# - name: pipx deps
+#   shell: pipx install torch torchvision --include-deps
+#   register: pipx
+#
+# - name: resolve pipx errors
+#   when: pipx is failed
+#   shell: pipx install torch torchvision --include-deps --force
 
 # python3 -m venv venv/
 

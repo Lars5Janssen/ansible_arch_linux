@@ -31,7 +31,7 @@ githubssh=false
 [all:vars]
 username=l
 homedir=/home/l
-githubssh=true
+githubssh=false
 rootusername=root
 multilib=true
 custom_ssh_port=7022

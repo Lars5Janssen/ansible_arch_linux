@@ -7,5 +7,5 @@
 - name: Proton Mail Bridge
   # become_user: "{{ username }}"
   become: true
-  flatpak:
-    name: ch.protonmail.protonmail-bridge
+  pacman:
+    name: protonmail-bridge

@@ -9,7 +9,7 @@
 - name: Check for and or Download Ansible Repo
   become_user: "{{ username }}"
   git:
-    repo: git@github.com:Lars5Janssen/awnsible_arch_linux.git
+    repo: git@github.com:Lars5Janssen/ansible_arch_linux.git
     dest: "{{ homedir }}/Projects/private/ansible/"
     update: no
 

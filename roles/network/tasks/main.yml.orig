@@ -1,0 +1,86 @@
+#SPDX-License-Identifier: MIT-0
+# TODO VPN CONFIGS
+---
+# tasks file for network
+- name: Install Network Packages
+  become: true
+  pacman:
+    name:
+      - dhcpcd
+      - network-manager-applet
+      - networkmanager
+      - nm-connection-editor
+      ### START VPN
+      - networkmanager-openvpn
+      - networkmanager-openconnect
+      - webkit2gtk-4.1 
+      - libnma-gtk4 
+      - libnma 
+      - gcr 
+      ## END VPN
+
+
+- name: Unwanted NetworkManagers
+  become: true
+  pacman:
+    state: absent
+    name:
+      - iwd
+      - netctl
+      - systemd-networkd
+      - connman
+      - dhcpclient
+
+- name: dhcpcd
+  register: dhcpcd_nm_conf
+  become: true
+  blockinfile:
+    create: true
+    path: /etc/NetworkManager/conf.d/dhcpcd.conf
+    block: |
+      [main]
+      dhcp=dhcpcd
+
+- name: Dhcpcd not active
+  become: true
+  systemd:
+    name: dhcpcd.service
+    state: stopped
+    enabled: no
+
+- name: Enable NetworkManager
+  become: true
+  systemd:
+    name: NetworkManager
+    state: started
+    enabled: yes
+
+    # TODO
+# - name: VPNs
+#   import_tasks: vpn_connections.yml
+
+- name: Captive Portal Detection
+  become: true
+  copy:
+    src: "{{ role_path }}/files/90-open_captive_portal.sh"
+    dest: "/etc/NetworkManager/dispatcher.d/90-open_captive_portal"
+    owner: "{{ rootusername }}"
+    mode: '0700'
+
+- name: Captive Portal Detection Nr.2
+  become: true
+  copy:
+    src: "{{ role_path }}/files/captive-portal.sh"
+    dest: "/etc/NetworkManager/captive-portal.sh"
+    owner: "{{ rootusername }}"
+    mode: '0700'
+
+- name: Captive Portal Detection Nr.3
+  become: true
+  copy:
+    src: "{{ role_path }}/files/middlelayer.sh"
+    dest: "/etc/NetworkManager/middlelayer.sh"
+    owner: "{{ rootusername }}"
+    mode: '0700'
+# TODO
+# - name: Eduroam

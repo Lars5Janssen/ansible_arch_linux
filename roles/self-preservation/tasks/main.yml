@@ -18,4 +18,4 @@
     name: ansible_arch_linux reminder
     minute: "*/10"
     user: "{{ username }}"
-    job: "nice {{ homedir }}/.local/cron/git_repo_check_cron.sh {{ homedir }}/Projects/private/ansible/ 10000"
+    job: "nice {{ homedir }}/.local/scripts/git_repo_check_cron.sh {{ homedir }}/Projects/private/ansible/ 10000"

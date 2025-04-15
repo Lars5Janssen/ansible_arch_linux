@@ -15,21 +15,6 @@
   pacman:
     update_cache: yes
 
-- name: Copy Pacman cron job
-  copy:
-    src: "{{ role_path }}/files/pacman_update_checker.sh"
-    dest: "{{ homedir }}/.local/etc/cron.daily/pacman_update_checker.sh"
-    owner: "{{ username }}"
-    mode: '0755'
-
-- name: Pacman Cron Job
-  cron:
-    name: "Pacman Reminder"
-    hour: "*/3"
-    minute: "0,30"
-    user: "{{ username }}"
-    job: "nice {{ homedir }}/.local/etc/cron.daily/pacman_update_checker.sh delay"
-
 - name: Install Relector
   become: true
   pacman:
@@ -37,14 +22,19 @@
     state: present
   register: reflector
 
-- name: Use Reflector
+- name: Reflector Config
   become: true
-  cron:
-    name: "Pacman Reflector"
-    hour: "*/6"
-    user: "{{ rootusername }}"
-    job: nice reflector --country Germany --sort rate --protocol https --save /etc/pacman.d/mirrorlist
-    # TODO move to anacron and add logs
+  copy:
+    src: "{{ role_path }}/files/reflector.conf"
+    dest: /etc/xdg/reflector/reflector.conf
+    owner: "{{ rootusername }}"
+
+- name: Enable Reflector Service
+  become: true
+  systemd:
+    name: reflector.service
+    state: started
+    enabled: yes
 
 - name: Run reflector
   when: reflector is changed

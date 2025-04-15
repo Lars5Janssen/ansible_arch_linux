@@ -27,7 +27,7 @@
 
       # The default session, also known as the greeter.
       [initial_session]
-      command = "hyprland"
+      command = "zsh"
       user = "{{ username }}"
 
       [default_session]

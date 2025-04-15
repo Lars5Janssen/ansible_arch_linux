@@ -16,3 +16,13 @@
   pacman:
     state: absent
     name: mako
+
+- name: Remove Pacman cron job
+  file:
+    path: "{{ homedir }}/.local/etc/cron.daily/pacman_update_checker.sh"
+    state: absent
+
+- name: remove Pacman Cron Job
+  cron:
+    name: "Pacman Reminder"
+    state: absent

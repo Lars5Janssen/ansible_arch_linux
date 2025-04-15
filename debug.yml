@@ -2,11 +2,17 @@
 # TODO both pcs in one file
 - name: debug PC
   hosts: pc
+  roles:
+    - wake-on-lan
 
   tasks:
     - name: debug
       debug:
         var: ansible_facts
+        # var: ansible_facts['default_ipv4']['macaddress']
+
+    # - name: echo facts
+    #   shell: "echo {{ ansible_facts }} >> /home/l/test.txt"
 
     # - name: Check for Card vendor
     #   become: true

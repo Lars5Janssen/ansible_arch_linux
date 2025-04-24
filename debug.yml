@@ -3,7 +3,7 @@
 - name: debug PC
   hosts: pc
   roles:
-    - wake-on-lan
+    - wooting
 
   tasks:
     - name: debug

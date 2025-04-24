@@ -51,6 +51,7 @@
   loop:
     - /bin/vi
     - /bin/vim
+  failed_when: false
 
 - name: Install AUR Apps
   shell: paru --noconfirm --needed -S oh-my-posh-bin mullvad-vpn-bin

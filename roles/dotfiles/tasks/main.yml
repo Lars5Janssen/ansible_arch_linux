@@ -57,9 +57,13 @@
 
 - name: rust default
   shell: rustup default stable
+  register: rustup_output
+  changed_when: rustup_output.stdout.find('unchanged - rustc') == -1 and rustup_output.stdout.find('using existing install') == -1
 
 - name: scriptisto
-  shell: paru -S scriptisto 
+  shell: paru -S scriptisto --noconfirm --needed
+  register: paru_output
+  changed_when: paru_output.stderr.find('up to date -- skipping') == -1
 
 - name: Btop
   import_tasks: btop.yml

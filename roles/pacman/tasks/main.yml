@@ -33,7 +33,6 @@
   become: true
   systemd:
     name: reflector.service
-    state: started
     enabled: yes
 
 - name: Run reflector

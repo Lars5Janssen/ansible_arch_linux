@@ -52,14 +52,18 @@
   pacman:
     name:
       - swww
-# TODO Cron job using swww query | grep 'color' swww img ...
 
-# TODO Abstrace background image (dir under home?)
 - name: Copy Irithyll Background
   copy:
     src: "{{ homedir }}/Pictures/irithyll.jpg"
     dest: "{{ homedir }}/Pictures/irithyll.jpg"
-  register: copy_bg
+
+- name: Background Image cron task
+  cron:
+    name: Cycle BG Image
+    minute: "0,30"
+    user: "{{ username }}"
+    job: "~/scripts/setBGimage.sh"
 
 - name: tofi (Programm runner)
   shell: paru -S tofi --needed --noconfirm

@@ -44,6 +44,7 @@ for path in glob('roles/*/meta/main.yml'):
             except:
                 logging.exception("Probleme with %s dependency: %s", dependent_role, dependency)
 dot.format = 'png'
+
 dot.render('roles.gv', view=True)
 
 

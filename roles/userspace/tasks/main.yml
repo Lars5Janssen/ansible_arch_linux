@@ -86,8 +86,5 @@
     method: system
     name: com.discordapp.DiscordCanary
 
-- name: KeyD
-  import_tasks: keyd.yml
-
 - name: Thunderbird
   import_tasks: thunderbird.yml

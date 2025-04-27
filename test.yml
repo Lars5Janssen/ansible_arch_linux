@@ -1,4 +1,14 @@
 - name: Testing
   hosts: self
   roles:
-    - network
+    - common-setup
+    - music-prod
+    - wake-on-lan
+    - a1111
+    - gaming
+    - virtualization
+    - bluetooth
+
+  tasks:
+    - name: Historical Fixes
+      import_tasks: historical.yml

@@ -1,0 +1,29 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for kanata
+- name: Install Kanata
+  shell: paru -S kanata --needed --noconfirm
+  register: paru_output
+  changed_when: paru_output.stderr.find('up to date -- skipping') == -1
+
+- name: Copy Kanata service
+  copy:
+    src: "{{ role_path }}/files/kanata.service"
+    dest: "{{ homedir }}/.config/systemd/user/kanata.service"
+    owner: "{{ username }}"
+
+- name: Ensure groups exist
+  become: true
+  group:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - uinput
+    - input
+
+- name: Add User to groups
+  become: true
+  user:
+    name: "{{ username }}"
+    groups: input,uinput
+    append: true 

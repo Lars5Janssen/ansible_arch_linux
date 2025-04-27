@@ -1,0 +1,19 @@
+---
+# - name: Install KeyD
+#   become: true
+#   pacman:
+#     name: keyd
+#
+# - name: KeyD Config
+#   become: true
+#   copy:
+#     src: "{{ role_path }}/files/keyd.conf"
+#     dest: "/etc/keyd/default.conf"
+#   register: keyd_config
+
+- name: Disable KeyD
+  become: true
+  systemd:
+    state: stopped
+    enabled: no
+    name: keyd

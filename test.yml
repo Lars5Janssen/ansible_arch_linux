@@ -1,13 +1,7 @@
 - name: Testing
   hosts: self
   roles:
-    - common-setup
-    - music-prod
-    - wake-on-lan
-    - a1111
-    - gaming
-    - virtualization
-    - bluetooth
+    - wooting
 
   tasks:
     - name: Historical Fixes

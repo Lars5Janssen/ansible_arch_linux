@@ -1,3 +1,18 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # tasks file for disable-mouse-wake-up
+- name: copy script
+  become: true
+  copy:
+    src: "{{ role_path }}/files/disable-mouse-wake-up.sh"
+    dest: "{{ homedir }}/.local/cron/disable-mouse-wake-up.sh"
+    owner: "{{ rootusername }}"
+    mode: "0755"
+
+- name: cron job disable logitech mouse wakeup
+  become: true
+  cron:
+    name: "disable-mouse-wake-up"
+    user: "{{ rootusername }}"
+    job: "nice {{ homedir }}/.local/cron/disable-mouse-wake-up.sh Lightspeed"
+    minute: "5,30,50"

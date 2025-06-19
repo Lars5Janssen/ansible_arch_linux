@@ -1,19 +1,36 @@
 ---
-# - name: Install KeyD
-#   become: true
-#   pacman:
-#     name: keyd
-#
-# - name: KeyD Config
-#   become: true
-#   copy:
-#     src: "{{ role_path }}/files/keyd.conf"
-#     dest: "/etc/keyd/default.conf"
-#   register: keyd_config
-
 - name: Disable KeyD
   become: true
   systemd:
     state: stopped
     enabled: no
     name: keyd
+  ignore_errors: true
+
+- name: Remove KeyD
+  become: true
+  pacman:
+    name: keyd
+    state: absent
+
+- name: Remove KeyD Config
+  become: true
+  file:
+    path: "/etc/keyd/default.conf"
+    state: absent
+
+- name: Remove the flathub user beta repo
+  become: true
+  community.general.flatpak_remote:
+    name: flathub-beta
+    state: absent
+    flatpakrepo_url: https://flathub.org/beta-repo/flathub-beta.flatpakrepo
+    method: system
+
+- name: Remove Flatpak Beta Apps
+  become: true
+  flatpak:
+    remote: flathub-beta
+    method: system
+    state: absent
+    name: com.discordapp.DiscordCanary

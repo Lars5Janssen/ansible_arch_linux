@@ -14,5 +14,5 @@
   become: true
   systemd:
     name: bluetooth
-    state: started
+    # state: started
     enabled: yes

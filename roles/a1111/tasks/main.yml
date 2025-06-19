@@ -12,6 +12,9 @@
     # TODO WHEN
 - name: paru dep
   shell: paru -S python311 --needed --noconfirm
+  register: paru_output
+  changed_when: paru_output.stderr.find('up to date -- skipping') == -1
+  ignore_errors: true
 
   # TODO 
   # VENV --> pyhton3.11 ensurepip --upgrade --> pyhthon3.11 -m pip install .,..

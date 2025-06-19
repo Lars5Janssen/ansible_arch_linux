@@ -57,14 +57,7 @@
   shell: paru --noconfirm --needed -S oh-my-posh-bin mullvad-vpn-bin
   register: paru_output
   changed_when: paru_output.stderr.find('up to date -- skipping') == -1
-
-- name: Add the flathub user beta repo
-  become: true
-  community.general.flatpak_remote:
-    name: flathub-beta
-    state: present
-    flatpakrepo_url: https://flathub.org/beta-repo/flathub-beta.flatpakrepo
-    method: system
+  ignore_errors: true
 
 - name: Install Flatpak Apps
   become: true
@@ -78,13 +71,6 @@
       - org.libreoffice.LibreOffice
       - org.mozilla.Thunderbird
       - chat.revolt.RevoltDesktop
-
-- name: Install Flatpak Beta Apps
-  become: true
-  flatpak:
-    remote: flathub-beta
-    method: system
-    name: com.discordapp.DiscordCanary
 
 - name: Thunderbird
   import_tasks: thunderbird.yml

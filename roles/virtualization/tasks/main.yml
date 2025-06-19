@@ -83,5 +83,5 @@
   become: true
   systemd:
     name: libvirtd
-    state: started
+    # state: started
     enabled: yes

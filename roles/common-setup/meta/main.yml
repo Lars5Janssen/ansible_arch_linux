@@ -38,6 +38,7 @@ dependencies:
   - role: pacman 
   - role: network 
   - role: firewall
+  - role: disable-mouse-wake-up
   - role: aur 
   - role: github 
   - role: dotfiles 
